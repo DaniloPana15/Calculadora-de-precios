@@ -12,12 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: radial-gradient(circle at top left, #1a1c29, #0d0e15 60%, #050508);
@@ -28,7 +23,6 @@
             justify-content: center;
             padding: 20px;
         }
-
         .box {
             background: rgba(23, 25, 35, 0.85);
             backdrop-filter: blur(16px);
@@ -36,10 +30,9 @@
             border-radius: 24px;
             padding: 28px 24px;
             width: 100%;
-            max-width: 420px;
+            max-width: 440px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
         }
-
         h2 {
             font-family: 'Syne', sans-serif;
             font-size: 1.4rem;
@@ -50,7 +43,6 @@
             -webkit-text-fill-color: transparent;
             text-align: center;
         }
-
         label {
             font-size: 0.75rem;
             font-weight: 600;
@@ -60,18 +52,8 @@
             display: block;
             margin-bottom: 6px;
         }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .input-group {
-            margin-bottom: 16px;
-        }
-
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .input-group { margin-bottom: 16px; }
         input, select {
             width: 100%;
             background: rgba(15, 23, 42, 0.7);
@@ -80,63 +62,48 @@
             padding: 12px 14px;
             color: #ffffff;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 600;
             outline: none;
             transition: all 0.3s ease;
         }
-
         input:focus, select:focus {
             border-color: #6366f1;
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
         }
 
-        /* Selector de Logística con Logos */
+        /* Selector de Logística con Logos PNG */
         .courier-selector {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
-
         .courier-card {
             background: rgba(15, 23, 42, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
-            padding: 12px;
+            padding: 10px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            gap: 10px;
         }
-
         .courier-card.active {
             border-color: #6366f1;
             background: rgba(99, 102, 241, 0.15);
             box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
         }
-
-        .courier-logo {
+        .courier-logo-img {
             width: 28px;
             height: 28px;
+            object-fit: contain;
             border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 0.8rem;
         }
-
-        .logo-ca { background: #ffcc00; color: #003399; }
-        .logo-andreani { background: #e30613; color: #ffffff; }
-
-        .courier-card span {
-            font-size: 0.8rem;
-            font-weight: 700;
-        }
+        .courier-card span { font-size: 0.8rem; font-weight: 700; }
 
         .card-result {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.15));
@@ -146,15 +113,7 @@
             margin-bottom: 16px;
             text-align: center;
         }
-
-        .card-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #c084fc;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-
+        .card-label { font-size: 0.75rem; font-weight: 600; color: #c084fc; text-transform: uppercase; margin-bottom: 4px; }
         .highlight {
             font-family: 'Syne', sans-serif;
             font-size: 1.8rem;
@@ -164,40 +123,12 @@
             -webkit-text-fill-color: transparent;
             display: block;
         }
+        hr { border: none; height: 1px; background: rgba(255, 255, 255, 0.08); margin: 16px 0; }
+        .res-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #94a3b8; margin-top: 8px; }
+        .res-row span { font-weight: 600; color: #f1f5f9; }
+        .res-row.profit span { color: #34d399; }
 
-        hr {
-            border: none;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.08);
-            margin: 16px 0;
-        }
-
-        .res-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            color: #94a3b8;
-            margin-top: 8px;
-        }
-
-        .res-row span {
-            font-weight: 600;
-            color: #f1f5f9;
-        }
-
-        .res-row.profit span {
-            color: #34d399;
-        }
-
-        /* Elementos de recomendación */
-        .header-label-group {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
-        }
-
+        .header-label-group { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
         .btn-rec {
             background: rgba(99, 102, 241, 0.2);
             border: 1px solid rgba(99, 102, 241, 0.4);
@@ -207,22 +138,8 @@
             padding: 2px 8px;
             border-radius: 6px;
             cursor: pointer;
-            transition: all 0.2s ease;
         }
-
-        .btn-rec:hover {
-            background: rgba(99, 102, 241, 0.4);
-            color: #ffffff;
-        }
-
-        .badge-status {
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 4px;
-            text-transform: uppercase;
-        }
-
+        .badge-status { font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
         .status-low { background: rgba(239, 68, 68, 0.2); color: #f87171; }
         .status-good { background: rgba(52, 211, 153, 0.2); color: #34d399; }
         .status-great { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
@@ -237,16 +154,50 @@
     <label>Empresa de Logística</label>
     <div class="courier-selector">
         <div class="courier-card active" id="btn-ca" onclick="seleccionarCorreo('CA')">
-            <div class="courier-logo logo-ca">CA</div>
+            <img src="ca-logo.png" alt="CA" class="courier-logo-img" onerror="this.style.display='none'">
             <span>Correo Arg.</span>
         </div>
         <div class="courier-card" id="btn-andreani" onclick="seleccionarCorreo('ANDREANI')">
-            <div class="courier-logo logo-andreani">A</div>
+            <img src="andreani-logo.png" alt="A" class="courier-logo-img" onerror="this.style.display='none'">
             <span>Andreani</span>
         </div>
     </div>
 
-    <!-- Tipo de Envío -->
+    <!-- Opciones de Ubicación y Peso para calcular flete -->
+    <div class="grid-2">
+        <div>
+            <label for="zonaEnvio">Destino</label>
+            <select id="zonaEnvio" onchange="calcularCostoFlete()">
+                <option value="regional">Regional / Local</option>
+                <option value="nacional" selected>Nacional</option>
+            </select>
+        </div>
+        <div>
+            <label for="modalidadEnvio">Modalidad</label>
+            <select id="modalidadEnvio" onchange="calcularCostoFlete()">
+                <option value="sucursal">A Sucursal</option>
+                <option value="domicilio" selected>A Domicilio</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div>
+            <label for="pesoPaquete">Peso / Tamaño</label>
+            <select id="pesoPaquete" onchange="calcularCostoFlete()">
+                <option value="1">Hasta 1 kg</option>
+                <option value="5">Hasta 5 kg</option>
+                <option value="10">Hasta 10 kg</option>
+                <option value="manual">Manual / Convenio</option>
+            </select>
+        </div>
+        <div>
+            <label for="costoEnvio">Costo Envío ($)</label>
+            <input type="text" id="costoEnvio" inputmode="numeric" placeholder="Calculado..." oninput="formatearEntrada(this)">
+        </div>
+    </div>
+
+    <!-- Tipo de Envío (Pago) -->
     <div class="input-group">
         <label for="tipoEnvio">Modalidad de Cobro</label>
         <select id="tipoEnvio" onchange="calcular()">
@@ -255,24 +206,19 @@
         </select>
     </div>
 
-    <!-- Inputs Principales -->
+    <!-- Inputs del Producto -->
     <div class="grid-2">
         <div>
             <label for="costoProducto">Costo Producto ($)</label>
             <input type="text" id="costoProducto" inputmode="numeric" placeholder="Ej: 15.000" oninput="formatearEntrada(this)">
         </div>
         <div>
-            <label for="costoEnvio">Costo Envío Fijo ($)</label>
-            <input type="text" id="costoEnvio" inputmode="numeric" placeholder="Ej: 4.500" oninput="formatearEntrada(this)">
+            <div class="header-label-group">
+                <label for="margenGanancia">% Margen</label>
+                <button type="button" class="btn-rec" onclick="usarMargenRecomendado()">70%</button>
+            </div>
+            <input type="text" id="margenGanancia" inputmode="numeric" placeholder="Ej: 70" oninput="calcular()">
         </div>
-    </div>
-
-    <div class="input-group">
-        <div class="header-label-group">
-            <label for="margenGanancia">% Margen Deseado</label>
-            <button type="button" class="btn-rec" onclick="usarMargenRecomendado()">Usar Sugerido (70%)</button>
-        </div>
-        <input type="text" id="margenGanancia" inputmode="numeric" placeholder="Ej: 70" oninput="calcular()">
     </div>
 
     <!-- Resultado Destacado -->
@@ -304,10 +250,41 @@
 <script>
 let correoSeleccionado = 'CA';
 
+// Matriz de Tarifas Estimadas
+const TARIFAS = {
+    CA: {
+        regional: { sucursal: { 1: 14500, 5: 18000, 10: 24000 }, domicilio: { 1: 18400, 5: 21800, 10: 29300 } },
+        nacional: { sucursal: { 1: 19500, 5: 24000, 10: 33000 }, domicilio: { 1: 24900, 5: 30200, 10: 42600 } }
+    },
+    ANDREANI: {
+        regional: { sucursal: { 1: 11000, 5: 14500, 10: 19000 }, domicilio: { 1: 13000, 5: 17000, 10: 23000 } },
+        nacional: { sucursal: { 1: 14000, 5: 18500, 10: 24000 }, domicilio: { 1: 16500, 5: 22000, 10: 28500 } }
+    }
+};
+
 function seleccionarCorreo(correo) {
     correoSeleccionado = correo;
     document.getElementById('btn-ca').classList.toggle('active', correo === 'CA');
     document.getElementById('btn-andreani').classList.toggle('active', correo === 'ANDREANI');
+    calcularCostoFlete();
+}
+
+function calcularCostoFlete() {
+    let peso = document.getElementById('pesoPaquete').value;
+    let inputEnvio = document.getElementById('costoEnvio');
+
+    if (peso === 'manual') {
+        inputEnvio.readOnly = false;
+        calcular();
+        return;
+    }
+
+    inputEnvio.readOnly = true;
+    let zona = document.getElementById('zonaEnvio').value;
+    let modalidad = document.getElementById('modalidadEnvio').value;
+
+    let tarifaCalculada = TARIFAS[correoSeleccionado][zona][modalidad][peso];
+    inputEnvio.value = tarifaCalculada.toLocaleString('es-AR');
     calcular();
 }
 
@@ -336,7 +313,6 @@ function calcular() {
     let costoEnvio = obtenerNumero('costoEnvio');
     let margen = obtenerNumero('margenGanancia');
     let tipoEnvio = document.getElementById('tipoEnvio').value;
-
     let badge = document.getElementById('badgeEstado');
 
     if (costoProd <= 0) {
@@ -352,13 +328,8 @@ function calcular() {
     let subtotalNecesario = costoProd + gananciaObjetivo + costoEnvio;
 
     let tasaComision = 0;
-
     if (tipoEnvio === 'cr') {
-        if (correoSeleccionado === 'CA') {
-            tasaComision = 0.05;
-        } else if (correoSeleccionado === 'ANDREANI') {
-            tasaComision = 0.06;
-        }
+        tasaComision = (correoSeleccionado === 'CA') ? 0.05 : 0.06;
     }
 
     let precioFinal = Math.ceil(subtotalNecesario / (1 - tasaComision));
@@ -371,7 +342,6 @@ function calcular() {
     document.getElementById('comisionCobrada').innerText = "$" + comisionMonto.toLocaleString('es-AR');
     document.getElementById('porcentajeReal').innerText = rentabilidadEfectiva + "% ";
 
-    // Actualizar indicador visual de rentabilidad
     badge.style.display = "inline-block";
     if (margen < 40) {
         badge.innerText = "Riesgo";
@@ -384,6 +354,9 @@ function calcular() {
         badge.className = "badge-status status-great";
     }
 }
+
+// Inicializar flete
+calcularCostoFlete();
 </script>
 
 </body>
