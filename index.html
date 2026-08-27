@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Contra Reembolso</title>
+    <title>Calculadora de Precios y Envío Gratis</title>
     
-    <!-- Ícono para pestañas de navegador en PC -->
     <link rel="icon" type="image/png" href="favicon.png">
-    
-    <!-- Ícono para acceso directo en pantalla de inicio de celulares (Android e iOS) -->
     <link rel="apple-touch-icon" href="favicon.png">
 
-    <!-- Importación de tipografías: Syne (encabezados) y Plus Jakarta Sans (cuerpo/números) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
@@ -34,90 +30,134 @@
         }
 
         .box {
-            background: rgba(23, 25, 35, 0.75);
+            background: rgba(23, 25, 35, 0.85);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 24px;
-            padding: 32px 28px;
+            padding: 28px 24px;
             width: 100%;
-            max-width: 380px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            position: relative;
+            max-width: 420px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
         }
 
         h2 {
             font-family: 'Syne', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 800;
-            letter-spacing: -0.5px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             background: linear-gradient(135deg, #ffffff 30%, #a5b4fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
         }
 
-        .input-group {
-            margin-bottom: 24px;
-        }
-
         label {
-            font-size: 0.825rem;
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.8px;
             color: #94a3b8;
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
-        input {
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        input, select {
             width: 100%;
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(15, 23, 42, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 12px;
-            padding: 14px 16px;
+            padding: 12px 14px;
             color: #ffffff;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             outline: none;
             transition: all 0.3s ease;
         }
 
-        input:focus {
+        input:focus, select:focus {
             border-color: #6366f1;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
-            background: rgba(15, 23, 42, 0.9);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
         }
 
-        input::placeholder {
-            color: #475569;
-            font-weight: 400;
+        /* Selector de Logística con Logos */
+        .courier-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .courier-card {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .courier-card.active {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.15);
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .courier-logo {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.8rem;
+        }
+
+        .logo-ca { background: #ffcc00; color: #003399; }
+        .logo-andreani { background: #e30613; color: #ffffff; }
+
+        .courier-card span {
+            font-size: 0.8rem;
+            font-weight: 700;
         }
 
         .card-result {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(168, 85, 247, 0.12));
-            border: 1px solid rgba(168, 85, 247, 0.25);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.15));
+            border: 1px solid rgba(168, 85, 247, 0.3);
             border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 16px;
+            margin-bottom: 16px;
             text-align: center;
         }
 
         .card-label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: #c084fc;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .highlight {
             font-family: 'Syne', sans-serif;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 800;
             background: linear-gradient(135deg, #a855f7, #6366f1);
             -webkit-background-clip: text;
@@ -129,16 +169,16 @@
             border: none;
             height: 1px;
             background: rgba(255, 255, 255, 0.08);
-            margin: 20px 0;
+            margin: 16px 0;
         }
 
         .res-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #94a3b8;
-            margin-top: 10px;
+            margin-top: 8px;
         }
 
         .res-row span {
@@ -146,7 +186,7 @@
             color: #f1f5f9;
         }
 
-        .res-row.final span {
+        .res-row.profit span {
             color: #34d399;
         }
     </style>
@@ -154,53 +194,135 @@
 <body>
 
 <div class="box">
-    <h2>Contra Reembolso</h2>
+    <h2>Armado de Precios</h2>
     
-    <div class="input-group">
-        <label for="precioBase">Precio en mano ($)</label>
-        <input type="text" id="precioBase" inputmode="numeric" placeholder="Ej: 53.700" oninput="formatearYCalcular(this)">
+    <!-- Selección de Logística -->
+    <label>Empresa de Logística</label>
+    <div class="courier-selector">
+        <div class="courier-card active" id="btn-ca" onclick="seleccionarCorreo('CA')">
+            <div class="courier-logo logo-ca">CA</div>
+            <span>Correo Arg.</span>
+        </div>
+        <div class="courier-card" id="btn-andreani" onclick="seleccionarCorreo('ANDREANI')">
+            <div class="courier-logo logo-andreani">A</div>
+            <span>Andreani</span>
+        </div>
     </div>
 
+    <!-- Tipo de Envío -->
+    <div class="input-group">
+        <label for="tipoEnvio">Modalidad de Cobro</label>
+        <select id="tipoEnvio" onchange="calcular()">
+            <option value="estandar">Envío Estándar (Sin cobro en destino)</option>
+            <option value="cr">Contra Reembolso (Cobro en destino)</option>
+        </select>
+    </div>
+
+    <!-- Inputs Principales -->
+    <div class="grid-2">
+        <div>
+            <label for="costoProducto">Costo Producto ($)</label>
+            <input type="text" id="costoProducto" inputmode="numeric" placeholder="Ej: 15.000" oninput="formatearEntrada(this)">
+        </div>
+        <div>
+            <label for="costoEnvio">Costo Envío Fijo ($)</label>
+            <input type="text" id="costoEnvio" inputmode="numeric" placeholder="Ej: 4.500" oninput="formatearEntrada(this)">
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label for="margenGanancia">% Margen Deseado sobre Producto</label>
+        <input type="text" id="margenGanancia" inputmode="numeric" placeholder="Ej: 50" oninput="calcular()">
+    </div>
+
+    <!-- Resultado Destacado -->
     <div class="card-result">
-        <div class="card-label">Monto para la tarjeta</div>
-        <span id="montoTarjeta" class="highlight">$0</span>
+        <div class="card-label">Precio Final de Venta (Envío Gratis)</div>
+        <span id="precioPublicado" class="highlight">$0</span>
     </div>
 
     <hr>
 
+    <!-- Desglose -->
     <div class="res-row">
-        <span>Comisión Correo (5%)</span>
-        <span id="comision">$0</span>
+        <span>Ganancia Neta Limpia</span>
+        <span id="gananciaNeta">$0</span>
     </div>
-    
-    <div class="res-row final">
-        <span>Cobrás en mano</span>
-        <span id="montoFinal">$0</span>
+    <div class="res-row">
+        <span>Comisión de Logística</span>
+        <span id="comisionCobrada">$0</span>
+    </div>
+    <div class="res-row profit">
+        <span>Rentabilidad Efectiva</span>
+        <span id="porcentajeReal">0%</span>
     </div>
 </div>
 
 <script>
-function formatearYCalcular(input) {
-    let valorLimpio = input.value.replace(/\D/g, '');
+let correoSeleccionado = 'CA';
 
-    if (!valorLimpio) {
+function seleccionarCorreo(correo) {
+    correoSeleccionado = correo;
+    document.getElementById('btn-ca').classList.toggle('active', correo === 'CA');
+    document.getElementById('btn-andreani').classList.toggle('active', correo === 'ANDREANI');
+    calcular();
+}
+
+function formatearEntrada(input) {
+    let valorLimpio = input.value.replace(/\D/g, '');
+    if (valorLimpio) {
+        input.value = parseInt(valorLimpio, 10).toLocaleString('es-AR');
+    } else {
         input.value = '';
-        document.getElementById('montoTarjeta').innerText = "$0";
-        document.getElementById('comision').innerText = "$0";
-        document.getElementById('montoFinal').innerText = "$0";
+    }
+    calcular();
+}
+
+function obtenerNumero(id) {
+    let val = document.getElementById(id).value.replace(/\D/g, '');
+    return val ? parseFloat(val) : 0;
+}
+
+function calcular() {
+    let costoProd = obtenerNumero('costoProducto');
+    let costoEnvio = obtenerNumero('costoEnvio');
+    let margen = obtenerNumero('margenGanancia');
+    let tipoEnvio = document.getElementById('tipoEnvio').value;
+
+    if (costoProd <= 0) {
+        document.getElementById('precioPublicado').innerText = "$0";
+        document.getElementById('gananciaNeta').innerText = "$0";
+        document.getElementById('comisionCobrada').innerText = "$0";
+        document.getElementById('porcentajeReal').innerText = "0%";
         return;
     }
 
-    let numero = parseInt(valorLimpio, 10);
-    input.value = numero.toLocaleString('es-AR');
+    // 1. Ganancia pura esperada sobre el producto
+    let gananciaObjetivo = costoProd * (margen / 100);
+    let subtotalNecesario = costoProd + gananciaObjetivo + costoEnvio;
 
-    let tarjeta = Math.ceil(numero / 0.95);
-    let comision = Math.round((tarjeta * 0.05) * 100) / 100;
-    let final = (tarjeta - comision).toFixed(2);
+    let tasaComision = 0;
 
-    document.getElementById('montoTarjeta').innerText = "$" + tarjeta.toLocaleString('es-AR');
-    document.getElementById('comision').innerText = "$" + comision.toLocaleString('es-AR');
-    document.getElementById('montoFinal').innerText = "$" + parseFloat(final).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    // Configuración de porcentajes por empresa
+    if (tipoEnvio === 'cr') {
+        if (correoSeleccionado === 'CA') {
+            tasaComision = 0.05; // 5% Correo Argentino
+        } else if (correoSeleccionado === 'ANDREANI') {
+            tasaComision = 0.06; // 6% Promedio estimado Andreani para Contra Reembolso
+        }
+    }
+
+    // Cálculo final absorbiendo comisiones
+    let precioFinal = Math.ceil(subtotalNecesario / (1 - tasaComision));
+    let comisionMonto = Math.round((precioFinal * tasaComision) * 100) / 100;
+    let gananciaLimpia = precioFinal - comisionMonto - costoEnvio - costoProd;
+    let rentabilidadEfectiva = ((gananciaLimpia / costoProd) * 100).toFixed(1);
+
+    // Formatear en pantalla
+    document.getElementById('precioPublicado').innerText = "$" + precioFinal.toLocaleString('es-AR');
+    document.getElementById('gananciaNeta').innerText = "$" + Math.round(gananciaLimpia).toLocaleString('es-AR');
+    document.getElementById('comisionCobrada').innerText = "$" + comisionMonto.toLocaleString('es-AR');
+    document.getElementById('porcentajeReal').innerText = rentabilidadEfectiva + "%";
 }
 </script>
 
