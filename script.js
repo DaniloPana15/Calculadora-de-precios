@@ -1,5 +1,19 @@
 let correoSeleccionado = 'CA';
 
+function actualizarReglasCR() {
+    let tipoEnvio = document.getElementById('tipoEnvio').value;
+    let selectModalidad = document.getElementById('modalidadEnvio');
+
+    if (tipoEnvio === 'cr') {
+        selectModalidad.value = 'sucursal';
+        selectModalidad.disabled = true;
+    } else {
+        selectModalidad.disabled = false;
+    }
+
+    calcularCostoFlete();
+}
+
 const TARIFAS = {
     CA: {
         regional: { sucursal: { 1: 14500, 5: 18000, 10: 24000 }, domicilio: { 1: 18400, 5: 21800, 10: 29300 } },
