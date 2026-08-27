@@ -82,14 +82,14 @@
     </div>
 
     <!-- Tipo de Envío -->
-    <div class="input-group">
-        <label for="tipoEnvio">Modalidad de Cobro</label>
-        <select id="tipoEnvio" onchange="calcular()">
-            <option value="estandar">Envío Estándar (Sin cobro en destino)</option>
-            <option value="cr">Contra Reembolso (Cobro de producto en destino)</option>
-        </select>
-    </div>
-
+<div class="input-group">
+    <label for="tipoEnvio">Modalidad de Cobro</label>
+    <select id="tipoEnvio" onchange="actualizarReglasCR()">
+        <option value="estandar">Envío Estándar (Sin cobro en destino)</option>
+        <option value="cr">Contra Reembolso (Sucursal Oficial - Cobro en destino)</option>
+    </select>
+</div>
+    
     <!-- Inputs del Producto -->
     <div class="grid-2">
         <div>
