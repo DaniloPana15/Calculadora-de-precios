@@ -3,94 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Precios y Envío Gratis</title>
+    <title>Calculadora E-Commerce & Logística</title>
     
     <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
-
     <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-    
-    <!-- CSS Externo -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<div class="box">
-    <h2>Armado de Precios</h2>
+<!-- SECCIÓN HERO CON DEGRADADOS SOFISTICADOS -->
+<header class="hero-section">
+    <div class="hero-badge">E-COMMERCE PROFESIONAL</div>
+    <h1 class="hero-title">Calculadora de Precios & Rentabilidad</h1>
+    <p class="hero-subtitle">Optimizá tus márgenes de ganancia y calculá envíos en tiempo real para las principales plataformas y logísticas de Argentina.</p>
     
-    <!-- Selector de Logística -->
-    <label>Empresa de Logística</label>
-    <div class="courier-selector">
-        <div class="courier-card active" id="btn-ca" onclick="seleccionarCorreo('CA')">
-            <img src="ca-logo.png" alt="Correo Argentino" class="courier-card-img">
+    <!-- Iconos integrados -->
+    <div class="hero-platforms">
+        <div class="platform-chip chip-meli">
+            <span class="chip-icon">💛</span> Mercado Libre
         </div>
-        <div class="courier-card" id="btn-andreani" onclick="seleccionarCorreo('ANDREANI')">
-            <img src="andreani-logo.png" alt="Andreani" class="courier-card-img">
+        <div class="platform-chip chip-ca">
+            <span class="chip-icon">🟡</span> Correo Argentino
         </div>
-    </div>
-
-    <!-- Opciones de Ubicación -->
-    <div class="grid-2">
-        <div>
-            <label for="zonaEnvio">Destino</label>
-            <select id="zonaEnvio" onchange="calcularCostoFlete()">
-                <option value="regional">Regional / Local</option>
-                <option value="nacional" selected>Nacional</option>
-            </select>
+        <div class="platform-chip chip-andreani">
+            <span class="chip-icon">🔴</span> Andreani
         </div>
-        <div>
-            <label for="modalidadEnvio">Modalidad</label>
-            <select id="modalidadEnvio" onchange="calcularCostoFlete()">
-                <option value="sucursal">A Sucursal</option>
-                <option value="domicilio" selected>A Domicilio</option>
-            </select>
+        <div class="platform-chip chip-oca">
+            <span class="chip-icon">💜</span> OCA
         </div>
     </div>
+</header>
 
-    <!-- Calculador Volumétrico -->
-    <label>Dimensiones del Paquete (CM)</label>
-    <div class="grid-3">
-        <div>
+<!-- CONTENEDOR PRINCIPAL -->
+<main class="box" id="calculadora">
+    
+    <!-- PESTAÑAS DE NAVEGACIÓN -->
+    <div class="tabs-container">
+        <button class="tab-btn active" id="tab-logistica" onclick="cambiarModo('logistica')">🚚 Logística Directa</button>
+        <button class="tab-btn" id="tab-meli" onclick="cambiarModo('meli')">💛 Mercado Libre</button>
+    </div>
+
+    <h2 id="titulo-seccion">Armado de Precios Directo</h2>
+    
+    <!-- PANEL 1: LOGÍSTICA DIRECTA -->
+    <div id="panel-logistica">
+        <label>Empresa de Logística</label>
+        <div class="courier-selector">
+            <div class="courier-card active" id="btn-ca" onclick="seleccionarCorreo('CA')">
+                <img src="ca-logo.png" alt="Correo Argentino" class="courier-card-img">
+            </div>
+            <div class="courier-card" id="btn-andreani" onclick="seleccionarCorreo('ANDREANI')">
+                <img src="andreani-logo.png" alt="Andreani" class="courier-card-img">
+            </div>
+            <div class="courier-card" id="btn-oca" onclick="seleccionarCorreo('OCA')">
+                <img src="oca-logo.png" alt="OCA" class="courier-card-img">
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div>
+                <label for="zonaEnvio">Destino</label>
+                <select id="zonaEnvio" onchange="calcularCostoFlete()">
+                    <option value="regional">Regional / Local</option>
+                    <option value="nacional" selected>Nacional</option>
+                </select>
+            </div>
+            <div>
+                <label for="modalidadEnvio">Modalidad</label>
+                <select id="modalidadEnvio" onchange="calcularCostoFlete()">
+                    <option value="sucursal">A Sucursal</option>
+                    <option value="domicilio" selected>A Domicilio</option>
+                </select>
+            </div>
+        </div>
+
+        <label>Dimensiones del Paquete (CM)</label>
+        <div class="grid-3">
             <input type="text" id="ancho" placeholder="Ancho" inputmode="numeric" oninput="calcularVolumetrico()">
-        </div>
-        <div>
             <input type="text" id="alto" placeholder="Alto" inputmode="numeric" oninput="calcularVolumetrico()">
-        </div>
-        <div>
             <input type="text" id="largo" placeholder="Largo" inputmode="numeric" oninput="calcularVolumetrico()">
         </div>
-    </div>
 
-    <div class="grid-2">
-        <div>
-            <label for="pesoPaquete">Peso Aforo Calculado</label>
-            <select id="pesoPaquete" onchange="calcularCostoFlete()">
-                <option value="1">Hasta 1 kg</option>
-                <option value="5">Hasta 5 kg</option>
-                <option value="10">Hasta 10 kg</option>
-                <option value="manual">Manual / Convenio</option>
+        <div class="grid-2">
+            <div>
+                <label for="pesoPaquete">Peso Aforo Calculado</label>
+                <select id="pesoPaquete" onchange="calcularCostoFlete()">
+                    <option value="1">Hasta 1 kg</option>
+                    <option value="5">Hasta 5 kg</option>
+                    <option value="10">Hasta 10 kg</option>
+                    <option value="manual">Manual / Convenio</option>
+                </select>
+                <div id="txtVolumetrico" class="subtext-vol"></div>
+            </div>
+            <div>
+                <label for="costoEnvio">Costo Envío ($)</label>
+                <input type="text" id="costoEnvio" inputmode="numeric" placeholder="Calculado..." oninput="formatearEntrada(this)" disabled>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="tipoEnvio">Modalidad de Cobro</label>
+            <select id="tipoEnvio" onchange="actualizarReglasCR()">
+                <option value="estandar">Envío Estándar (Sin cobro en destino)</option>
+                <option value="cr">Contra Reembolso (Sucursal Oficial - Cobro en destino)</option>
             </select>
-            <div id="txtVolumetrico" class="subtext-vol"></div>
-        </div>
-        <div>
-            <label for="costoEnvio">Costo Envío ($)</label>
-            <input type="text" id="costoEnvio" inputmode="numeric" placeholder="Calculado..." oninput="formatearEntrada(this)" disabled>
         </div>
     </div>
 
-    <!-- Tipo de Envío -->
-<div class="input-group">
-    <label for="tipoEnvio">Modalidad de Cobro</label>
-    <select id="tipoEnvio" onchange="actualizarReglasCR()">
-        <option value="estandar">Envío Estándar (Sin cobro en destino)</option>
-        <option value="cr">Contra Reembolso (Sucursal Oficial - Cobro en destino)</option>
-    </select>
-</div>
-    
-    <!-- Inputs del Producto -->
+    <!-- PANEL 2: MERCADO LIBRE -->
+    <div id="panel-meli" style="display: none;">
+        <div class="grid-2">
+            <div>
+                <label for="tipoPublicacion">Tipo Publicación</label>
+                <select id="tipoPublicacion" onchange="calcular()">
+                    <option value="clasica">Clásica (14%)</option>
+                    <option value="premium">Premium (29%)</option>
+                </select>
+            </div>
+            <div>
+                <label for="reputacionMeli">Reputación</label>
+                <select id="reputacionMeli" onchange="calcular()">
+                    <option value="verde">Líder / Verde (50% desc. envío)</option>
+                    <option value="amarillo">Amarilla (40% desc. envío)</option>
+                    <option value="sin">Sin reputación (0% desc.)</option>
+                </select>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="costoEnvioMeli">Costo Envío Fijo Mercado Envíos ($)</label>
+            <input type="text" id="costoEnvioMeli" inputmode="numeric" placeholder="Ej: 6.500" oninput="formatearEntrada(this)">
+        </div>
+    </div>
+
+    <!-- INPUTS DEL PRODUCTO -->
     <div class="grid-2">
         <div>
             <label for="costoProducto">Costo Producto ($)</label>
@@ -105,33 +153,32 @@
         </div>
     </div>
 
-    <!-- Resultado Destacado -->
+    <!-- RESULTADO DESTACADO -->
     <div class="card-result">
-        <div class="card-label">Precio Final de Venta (Envío Gratis)</div>
+        <div class="card-label">Precio Final de Venta Sugerido</div>
         <span id="precioPublicado" class="highlight">$0</span>
     </div>
 
     <hr>
 
-    <!-- Desglose -->
+    <!-- DESGLOSE CON COLORES NEÓN -->
     <div class="res-row">
         <span>Ganancia Neta Limpia</span>
         <span id="gananciaNeta">$0</span>
     </div>
     <div class="res-row">
-        <span>Comisión de Logística</span>
+        <span>Comisión de Plataforma / Servicio</span>
         <span id="comisionCobrada">$0</span>
     </div>
     <div class="res-row profit">
         <span>Rentabilidad Efectiva</span>
         <div>
             <span id="porcentajeReal">0%</span>
-            <span id="badgeEstado" class="badge-status status-low" style="display:none;">Baja</span>
+            <span id="badgeEstado" class="badge-status status-low" style="display:none;">Riesgo</span>
         </div>
     </div>
-</div>
+</main>
 
-<!-- JS Externo -->
 <script src="script.js"></script>
 </body>
 </html>
