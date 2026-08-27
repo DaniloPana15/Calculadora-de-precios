@@ -6,34 +6,127 @@
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    background: radial-gradient(circle at top left, #1a1c29, #0d0e15 60%, #050508);
+    background: radial-gradient(circle at top, #1a1c2e, #0d0e17 60%, #05050a);
     color: #e2e8f0;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 20px;
+    padding: 40px 20px;
 }
 
+/* APARTADO HERO */
+.hero-section {
+    text-align: center;
+    max-width: 650px;
+    margin-bottom: 30px;
+}
+
+.hero-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    color: #a5b4fc;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 20px;
+    letter-spacing: 1.2px;
+    margin-bottom: 14px;
+}
+
+.hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ffffff 20%, #a855f7 60%, #6366f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+/* CHIPS DE PLATAFORMAS CON DEGRADADOS */
+.hero-platforms {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.platform-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.chip-meli { background: linear-gradient(135deg, rgba(255, 230, 0, 0.15), rgba(255, 180, 0, 0.05)); color: #ffe600; border-color: rgba(255, 230, 0, 0.3); }
+.chip-ca { background: linear-gradient(135deg, rgba(255, 204, 0, 0.15), rgba(220, 160, 0, 0.05)); color: #ffcc00; border-color: rgba(255, 204, 0, 0.3); }
+.chip-andreani { background: linear-gradient(135deg, rgba(227, 18, 18, 0.15), rgba(150, 0, 0, 0.05)); color: #ff4d4d; border-color: rgba(227, 18, 18, 0.3); }
+.chip-oca { background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(99, 102, 241, 0.05)); color: #c084fc; border-color: rgba(168, 85, 247, 0.3); }
+
+/* CONTENEDOR CALCULADORA */
 .box {
-    background: rgba(23, 25, 35, 0.85);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(23, 25, 35, 0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
     padding: 28px 24px;
     width: 100%;
-    max-width: 440px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    max-width: 480px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+
+/* PESTAÑAS (TABS) */
+.tabs-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    background: rgba(15, 23, 42, 0.6);
+    padding: 4px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    padding: 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    background: #6366f1;
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
 }
 
 h2 {
     font-family: 'Syne', sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 800;
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, #ffffff 30%, #a5b4fc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+    color: #ffffff;
     text-align: center;
 }
 
@@ -65,60 +158,33 @@ input, select {
     transition: all 0.3s ease;
 }
 
-input:disabled {
-    background: rgba(15, 23, 42, 0.3);
-    color: #94a3b8;
-    cursor: not-allowed;
-}
+input:disabled { background: rgba(15, 23, 42, 0.3); color: #64748b; cursor: not-allowed; }
+input:focus, select:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15); }
 
-input:focus, select:focus {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
-}
-
-/* BOTONES CON IMAGEN 100% Y EFECTOS DE LUZ */
+/* SELECTOR LOGÍSTICA (3 CORREOS) */
 .courier-selector {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
     margin-bottom: 16px;
 }
 
 .courier-card {
     background: rgba(15, 23, 42, 0.5);
     border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 14px;
-    height: 70px;
+    border-radius: 12px;
+    height: 60px;
     cursor: pointer;
     transition: all 0.3s ease;
     overflow: hidden;
-    padding: 0;
-    display: block;
-    opacity: 0.5;
+    opacity: 0.4;
 }
 
-.courier-card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
+.courier-card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* Resplandor Amarillo para Correo Argentino */
-#btn-ca.active {
-    border-color: #ffcc00;
-    opacity: 1;
-    box-shadow: 0 0 18px rgba(255, 204, 0, 0.6);
-    transform: scale(1.02);
-}
-
-/* Resplandor Rojo para Andreani */
-#btn-andreani.active {
-    border-color: #e31212;
-    opacity: 1;
-    box-shadow: 0 0 18px rgba(227, 18, 18, 0.6);
-    transform: scale(1.02);
-}
+#btn-ca.active { border-color: #ffcc00; opacity: 1; box-shadow: 0 0 15px rgba(255, 204, 0, 0.6); }
+#btn-andreani.active { border-color: #e31212; opacity: 1; box-shadow: 0 0 15px rgba(227, 18, 18, 0.6); }
+#btn-oca.active { border-color: #a855f7; opacity: 1; box-shadow: 0 0 15px rgba(168, 85, 247, 0.6); }
 
 /* RESULTADOS */
 .card-result {
@@ -130,76 +196,49 @@ input:focus, select:focus {
     text-align: center;
 }
 
-.card-label { 
-    font-size: 0.75rem; 
-    font-weight: 600; 
-    color: #c084fc; 
-    text-transform: uppercase; 
-    margin-bottom: 4px; 
-}
+.card-label { font-size: 0.75rem; font-weight: 600; color: #c084fc; text-transform: uppercase; margin-bottom: 4px; }
+.highlight { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, #a855f7, #6366f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: block; }
 
-.highlight {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.8rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #a855f7, #6366f1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: block;
-}
+hr { border: none; height: 1px; background: rgba(255, 255, 255, 0.08); margin: 16px 0; }
 
-hr { 
-    border: none; 
-    height: 1px; 
-    background: rgba(255, 255, 255, 0.08); 
-    margin: 16px 0; 
-}
-
-.res-row { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    font-size: 0.85rem; 
-    color: #94a3b8; 
-    margin-top: 8px; 
-}
-
+.res-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #94a3b8; margin-top: 8px; }
 .res-row span { font-weight: 600; color: #f1f5f9; }
-.res-row.profit span { color: #34d399; }
 
-.header-label-group { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    margin-bottom: 6px; 
-}
+.header-label-group { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.btn-rec { background: rgba(99, 102, 241, 0.2); border: 1px solid rgba(99, 102, 241, 0.4); color: #a5b4fc; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; cursor: pointer; }
 
-.btn-rec {
-    background: rgba(99, 102, 241, 0.2);
-    border: 1px solid rgba(99, 102, 241, 0.4);
-    color: #a5b4fc;
-    font-size: 0.65rem;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
+/* ESTILOS DE BADGES NEÓN PERSONALIZADOS */
 .badge-status { 
     font-size: 0.7rem; 
-    font-weight: 700; 
-    padding: 2px 6px; 
-    border-radius: 4px; 
+    font-weight: 800; 
+    padding: 3px 8px; 
+    border-radius: 6px; 
     text-transform: uppercase; 
+    letter-spacing: 0.5px;
 }
 
-.status-low { background: rgba(239, 68, 68, 0.2); color: #f87171; }
-.status-good { background: rgba(52, 211, 153, 0.2); color: #34d399; }
-.status-great { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
-
-.subtext-vol { 
-    font-size: 0.7rem; 
-    color: #818cf8; 
-    text-align: right; 
-    margin-top: 2px; 
+/* Rojo Neón (Riesgo) */
+.status-low { 
+    background: rgba(255, 0, 85, 0.15); 
+    color: #ff0055; 
+    border: 1px solid #ff0055;
+    box-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
 }
+
+/* Verde Neón (Saludable) */
+.status-good { 
+    background: rgba(0, 255, 102, 0.15); 
+    color: #00ff66; 
+    border: 1px solid #00ff66;
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+}
+
+/* Azul Neón (Excelente) */
+.status-great { 
+    background: rgba(0, 229, 255, 0.15); 
+    color: #00e5ff; 
+    border: 1px solid #00e5ff;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+}
+
+.subtext-vol { font-size: 0.7rem; color: #818cf8; text-align: right; margin-top: 2px; }
