@@ -189,6 +189,43 @@
         .res-row.profit span {
             color: #34d399;
         }
+
+        /* Elementos de recomendación */
+        .header-label-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .btn-rec {
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            color: #a5b4fc;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-rec:hover {
+            background: rgba(99, 102, 241, 0.4);
+            color: #ffffff;
+        }
+
+        .badge-status {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .status-low { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+        .status-good { background: rgba(52, 211, 153, 0.2); color: #34d399; }
+        .status-great { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
     </style>
 </head>
 <body>
@@ -231,8 +268,11 @@
     </div>
 
     <div class="input-group">
-        <label for="margenGanancia">% Margen Deseado sobre Producto</label>
-        <input type="text" id="margenGanancia" inputmode="numeric" placeholder="Ej: 50" oninput="calcular()">
+        <div class="header-label-group">
+            <label for="margenGanancia">% Margen Deseado</label>
+            <button type="button" class="btn-rec" onclick="usarMargenRecomendado()">Usar Sugerido (70%)</button>
+        </div>
+        <input type="text" id="margenGanancia" inputmode="numeric" placeholder="Ej: 70" oninput="calcular()">
     </div>
 
     <!-- Resultado Destacado -->
@@ -254,7 +294,10 @@
     </div>
     <div class="res-row profit">
         <span>Rentabilidad Efectiva</span>
-        <span id="porcentajeReal">0%</span>
+        <div>
+            <span id="porcentajeReal">0%</span>
+            <span id="badgeEstado" class="badge-status status-low" style="display:none;">Baja</span>
+        </div>
     </div>
 </div>
 
@@ -265,6 +308,11 @@ function seleccionarCorreo(correo) {
     correoSeleccionado = correo;
     document.getElementById('btn-ca').classList.toggle('active', correo === 'CA');
     document.getElementById('btn-andreani').classList.toggle('active', correo === 'ANDREANI');
+    calcular();
+}
+
+function usarMargenRecomendado() {
+    document.getElementById('margenGanancia').value = '70';
     calcular();
 }
 
@@ -289,40 +337,52 @@ function calcular() {
     let margen = obtenerNumero('margenGanancia');
     let tipoEnvio = document.getElementById('tipoEnvio').value;
 
+    let badge = document.getElementById('badgeEstado');
+
     if (costoProd <= 0) {
         document.getElementById('precioPublicado').innerText = "$0";
         document.getElementById('gananciaNeta').innerText = "$0";
         document.getElementById('comisionCobrada').innerText = "$0";
         document.getElementById('porcentajeReal').innerText = "0%";
+        badge.style.display = "none";
         return;
     }
 
-    // 1. Ganancia pura esperada sobre el producto
     let gananciaObjetivo = costoProd * (margen / 100);
     let subtotalNecesario = costoProd + gananciaObjetivo + costoEnvio;
 
     let tasaComision = 0;
 
-    // Configuración de porcentajes por empresa
     if (tipoEnvio === 'cr') {
         if (correoSeleccionado === 'CA') {
-            tasaComision = 0.05; // 5% Correo Argentino
+            tasaComision = 0.05;
         } else if (correoSeleccionado === 'ANDREANI') {
-            tasaComision = 0.06; // 6% Promedio estimado Andreani para Contra Reembolso
+            tasaComision = 0.06;
         }
     }
 
-    // Cálculo final absorbiendo comisiones
     let precioFinal = Math.ceil(subtotalNecesario / (1 - tasaComision));
     let comisionMonto = Math.round((precioFinal * tasaComision) * 100) / 100;
     let gananciaLimpia = precioFinal - comisionMonto - costoEnvio - costoProd;
     let rentabilidadEfectiva = ((gananciaLimpia / costoProd) * 100).toFixed(1);
 
-    // Formatear en pantalla
     document.getElementById('precioPublicado').innerText = "$" + precioFinal.toLocaleString('es-AR');
     document.getElementById('gananciaNeta').innerText = "$" + Math.round(gananciaLimpia).toLocaleString('es-AR');
     document.getElementById('comisionCobrada').innerText = "$" + comisionMonto.toLocaleString('es-AR');
-    document.getElementById('porcentajeReal').innerText = rentabilidadEfectiva + "%";
+    document.getElementById('porcentajeReal').innerText = rentabilidadEfectiva + "% ";
+
+    // Actualizar indicador visual de rentabilidad
+    badge.style.display = "inline-block";
+    if (margen < 40) {
+        badge.innerText = "Riesgo";
+        badge.className = "badge-status status-low";
+    } else if (margen <= 80) {
+        badge.innerText = "Saludable";
+        badge.className = "badge-status status-good";
+    } else {
+        badge.innerText = "Excelente";
+        badge.className = "badge-status status-great";
+    }
 }
 </script>
 
