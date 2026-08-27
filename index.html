@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora Contra Reembolso</title>
+    
+    <!-- Ícono para la pestaña del navegador (favicon) -->
+    <link rel="icon" type="image/png" href="favicon.png">
+
     <!-- Importación de tipografías: Syne (encabezados) y Plus Jakarta Sans (cuerpo/números) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -151,7 +155,6 @@
     
     <div class="input-group">
         <label for="precioBase">Precio en mano ($)</label>
-        <!-- Cambiado a type="text" e inputmode="numeric" para permitir dar formato con puntos en tiempo real -->
         <input type="text" id="precioBase" inputmode="numeric" placeholder="Ej: 53.700" oninput="formatearYCalcular(this)">
     </div>
 
@@ -175,7 +178,6 @@
 
 <script>
 function formatearYCalcular(input) {
-    // 1. Quitar todo lo que no sea número
     let valorLimpio = input.value.replace(/\D/g, '');
 
     if (!valorLimpio) {
@@ -186,16 +188,13 @@ function formatearYCalcular(input) {
         return;
     }
 
-    // 2. Formatear el campo de entrada con puntos de miles/millones en tiempo real
     let numero = parseInt(valorLimpio, 10);
     input.value = numero.toLocaleString('es-AR');
 
-    // 3. Realizar los cálculos financieros
     let tarjeta = Math.ceil(numero / 0.95);
     let comision = Math.round((tarjeta * 0.05) * 100) / 100;
     let final = (tarjeta - comision).toFixed(2);
 
-    // 4. Mostrar los resultados formateados
     document.getElementById('montoTarjeta').innerText = "$" + tarjeta.toLocaleString('es-AR');
     document.getElementById('comision').innerText = "$" + comision.toLocaleString('es-AR');
     document.getElementById('montoFinal').innerText = "$" + parseFloat(final).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
