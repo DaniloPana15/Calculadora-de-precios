@@ -243,16 +243,34 @@ hr { border: none; height: 1px; background: rgba(255, 255, 255, 0.08); margin: 1
 
 .subtext-vol { font-size: 0.7rem; color: #818cf8; text-align: right; margin-top: 2px; }
 
-.tab-btn {
+/* Estilo para botón compuesto solo por imagen */
+.tab-btn-img {
+    padding: 0 !important;
+    overflow: hidden;
+    height: 42px; /* Mantiene la misma altura que el botón de Logística */
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    background: transparent;
 }
 
-.tab-img {
-    height: 18px;
-    width: auto;
-    object-fit: contain;
+.btn-full-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta la imagen completa cubriendo el botón */
+    border-radius: 10px;
+    opacity: 0.5; /* Estado inactivo */
+    transition: all 0.3s ease;
 }
+
+/* Estado activo para el botón con imagen */
+.tab-btn.active .btn-full-img {
+    opacity: 1;
+    box-shadow: 0 0 12px rgba(255, 230, 0, 0.6); /* Brillo neón amarillo al activarse */
+}
+
+.tab-btn.active.tab-btn-img {
+    background: transparent !important;
+}
+
 
