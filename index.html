@@ -73,6 +73,7 @@
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
         }
 
+        /* BANNER COMPLETO DE IMAGEN (SIN TEXTOS INTERNOS) */
         .courier-selector {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -81,29 +82,28 @@
         }
         .courier-card {
             background: rgba(15, 23, 42, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 10px;
-            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            height: 75px; /* Altura generosa para el botón */
             cursor: pointer;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            overflow: hidden;
+            padding: 0;
+            display: block;
+            opacity: 0.5; /* Opaco cuando no está activo */
         }
         .courier-card.active {
             border-color: #6366f1;
-            background: rgba(99, 102, 241, 0.15);
-            box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
+            opacity: 1; /* 100% visibilidad al seleccionar */
+            box-shadow: 0 0 16px rgba(99, 102, 241, 0.5);
+            transform: scale(1.02);
         }
-        .courier-logo-img {
-            width: 28px;
-            height: 28px;
-            object-fit: contain;
-            border-radius: 6px;
+        .courier-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Muestra tu imagen de Canva entera sin deformarla */
+            display: block;
         }
-        .courier-card span { font-size: 0.8rem; font-weight: 700; }
 
         .card-result {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.15));
@@ -152,16 +152,14 @@
 <div class="box">
     <h2>Armado de Precios</h2>
     
-    <!-- Selección de Logística -->
+    <!-- Botones de Imagen Pura sin Texto -->
     <label>Empresa de Logística</label>
     <div class="courier-selector">
         <div class="courier-card active" id="btn-ca" onclick="seleccionarCorreo('CA')">
-            <img src="ca-logo.png" alt="CA" class="courier-logo-img" onerror="this.style.display='none'">
-            <span>Correo Arg.</span>
+            <img src="ca-logo.png" alt="Correo Argentino" class="courier-card-img">
         </div>
         <div class="courier-card" id="btn-andreani" onclick="seleccionarCorreo('ANDREANI')">
-            <img src="andreani-logo.png" alt="A" class="courier-logo-img" onerror="this.style.display='none'">
-            <span>Andreani</span>
+            <img src="andreani-logo.png" alt="Andreani" class="courier-card-img">
         </div>
     </div>
 
@@ -293,7 +291,6 @@ function calcularVolumetrico() {
     let txtVol = document.getElementById('txtVolumetrico');
 
     if (ancho > 0 && alto > 0 && largo > 0) {
-        // Fórmula Estándar de Aforo Logístico (Ancho x Alto x Largo / 6000)
         let pesoVol = (ancho * alto * largo) / 6000;
         txtVol.innerText = "Volumétrico: " + pesoVol.toFixed(2) + " kg";
 
