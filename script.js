@@ -1,86 +1,23 @@
-let correoSeleccionado = 'CA';
-
-const TARIFAS = {
-    CA: {
-        regional: { sucursal: { 1: 14500, 5: 18000, 10: 24000 }, domicilio: { 1: 18400, 5: 21800, 10: 29300 } },
-        nacional: { sucursal: { 1: 19500, 5: 24000, 10: 33000 }, domicilio: { 1: 24900, 5: 30200, 10: 42600 } }
-    },
-    ANDREANI: {
-        regional: { sucursal: { 1: 11000, 5: 14500, 10: 19000 }, domicilio: { 1: 13000, 5: 17000, 10: 23000 } },
-        nacional: { sucursal: { 1: 14000, 5: 18500, 10: 24000 }, domicilio: { 1: 16500, 5: 22000, 10: 28500 } }
-    }
-};
-
 function seleccionarCorreo(correo) {
     correoSeleccionado = correo;
     document.getElementById('btn-ca').classList.toggle('active', correo === 'CA');
     document.getElementById('btn-andreani').classList.toggle('active', correo === 'ANDREANI');
+    
+    let selectTipo = document.getElementById('tipoEnvio');
+    let opcionCR = selectTipo.querySelector('option[value="cr"]');
+
+    if (correo === 'ANDREANI') {
+        // Andreani no realiza cobro de producto en destino (Contra Reembolso)
+        if (selectTipo.value === 'cr') selectTipo.value = 'estandar';
+        opcionCR.disabled = true;
+        opcionCR.innerText = "Contra Reembolso (No disponible en Andreani)";
+    } else {
+        // Correo Argentino sí ofrece servicio de Contra Reembolso
+        opcionCR.disabled = false;
+        opcionCR.innerText = "Contra Reembolso (Cobro de producto en destino)";
+    }
+
     calcularVolumetrico();
-}
-
-function calcularVolumetrico() {
-    let ancho = parseFloat(document.getElementById('ancho').value) || 0;
-    let alto = parseFloat(document.getElementById('alto').value) || 0;
-    let largo = parseFloat(document.getElementById('largo').value) || 0;
-
-    let txtVol = document.getElementById('txtVolumetrico');
-
-    if (ancho > 0 && alto > 0 && largo > 0) {
-        let pesoVol = (ancho * alto * largo) / 6000;
-        txtVol.innerText = "Volumétrico: " + pesoVol.toFixed(2) + " kg";
-
-        let selectPeso = document.getElementById('pesoPaquete');
-        if (pesoVol <= 1) {
-            selectPeso.value = "1";
-        } else if (pesoVol <= 5) {
-            selectPeso.value = "5";
-        } else {
-            selectPeso.value = "10";
-        }
-    } else {
-        txtVol.innerText = "";
-    }
-
-    calcularCostoFlete();
-}
-
-function calcularCostoFlete() {
-    let peso = document.getElementById('pesoPaquete').value;
-    let inputEnvio = document.getElementById('costoEnvio');
-
-    if (peso === 'manual') {
-        inputEnvio.readOnly = false;
-        calcular();
-        return;
-    }
-
-    inputEnvio.readOnly = true;
-    let zona = document.getElementById('zonaEnvio').value;
-    let modalidad = document.getElementById('modalidadEnvio').value;
-
-    let tarifaCalculada = TARIFAS[correoSeleccionado][zona][modalidad][peso];
-    inputEnvio.value = tarifaCalculada.toLocaleString('es-AR');
-    calcular();
-}
-
-function usarMargenRecomendado() {
-    document.getElementById('margenGanancia').value = '70';
-    calcular();
-}
-
-function formatearEntrada(input) {
-    let valorLimpio = input.value.replace(/\D/g, '');
-    if (valorLimpio) {
-        input.value = parseInt(valorLimpio, 10).toLocaleString('es-AR');
-    } else {
-        input.value = '';
-    }
-    calcular();
-}
-
-function obtenerNumero(id) {
-    let val = document.getElementById(id).value.replace(/\D/g, '');
-    return val ? parseFloat(val) : 0;
 }
 
 function calcular() {
@@ -102,9 +39,10 @@ function calcular() {
     let gananciaObjetivo = costoProd * (margen / 100);
     let subtotalNecesario = costoProd + gananciaObjetivo + costoEnvio;
 
+    // Solo Correo Argentino descuenta comisión por gestión de Contra Reembolso / Giro
     let tasaComision = 0;
-    if (tipoEnvio === 'cr') {
-        tasaComision = (correoSeleccionado === 'CA') ? 0.05 : 0.06;
+    if (tipoEnvio === 'cr' && correoSeleccionado === 'CA') {
+        tasaComision = 0.05; // 5% de tasa por servicio de reembolso
     }
 
     let precioFinal = Math.ceil(subtotalNecesario / (1 - tasaComision));
@@ -129,6 +67,3 @@ function calcular() {
         badge.className = "badge-status status-great";
     }
 }
-
-// Inicializar flete
-calcularCostoFlete();
