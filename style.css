@@ -1,0 +1,198 @@
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: radial-gradient(circle at top left, #1a1c29, #0d0e15 60%, #050508);
+    color: #e2e8f0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.box {
+    background: rgba(23, 25, 35, 0.85);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 28px 24px;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #ffffff 30%, #a5b4fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #94a3b8;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+.input-group { margin-bottom: 16px; }
+
+input, select {
+    width: 100%;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 12px 14px;
+    color: #ffffff;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* BOTONES DE IMAGEN COMPLETA */
+.courier-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.courier-card {
+    background: rgba(15, 23, 42, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    height: 70px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    padding: 0;
+    display: block;
+    opacity: 0.5;
+}
+
+.courier-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cubre el 100% del botón sin bordes faltantes */
+    display: block;
+}
+
+/* EFECTOS DE LUZ PERSONALIZADOS */
+#btn-ca.active {
+    border-color: #ffcc00;
+    opacity: 1;
+    box-shadow: 0 0 18px rgba(255, 204, 0, 0.6);
+    transform: scale(1.02);
+}
+
+#btn-andreani.active {
+    border-color: #e31212;
+    opacity: 1;
+    box-shadow: 0 0 18px rgba(227, 18, 18, 0.6);
+    transform: scale(1.02);
+}
+
+/* TARJETA RESULTADO */
+.card-result {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.15));
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.card-label { 
+    font-size: 0.75rem; 
+    font-weight: 600; 
+    color: #c084fc; 
+    text-transform: uppercase; 
+    margin-bottom: 4px; 
+}
+
+.highlight {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #a855f7, #6366f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
+}
+
+hr { 
+    border: none; 
+    height: 1px; 
+    background: rgba(255, 255, 255, 0.08); 
+    margin: 16px 0; 
+}
+
+.res-row { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    font-size: 0.85rem; 
+    color: #94a3b8; 
+    margin-top: 8px; 
+}
+
+.res-row span { font-weight: 600; color: #f1f5f9; }
+.res-row.profit span { color: #34d399; }
+
+.header-label-group { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 6px; 
+}
+
+.btn-rec {
+    background: rgba(99, 102, 241, 0.2);
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    color: #a5b4fc;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.badge-status { 
+    font-size: 0.7rem; 
+    font-weight: 700; 
+    padding: 2px 6px; 
+    border-radius: 4px; 
+    text-transform: uppercase; 
+}
+
+.status-low { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+.status-good { background: rgba(52, 211, 153, 0.2); color: #34d399; }
+.status-great { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
+
+.subtext-vol { 
+    font-size: 0.7rem; 
+    color: #818cf8; 
+    text-align: right; 
+    margin-top: 2px; 
+}
