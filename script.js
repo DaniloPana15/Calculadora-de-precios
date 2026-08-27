@@ -30,7 +30,6 @@ function seleccionarCorreo(correo) {
     document.getElementById('btn-ca').classList.toggle('active', correo === 'CA');
     document.getElementById('btn-andreani').classList.toggle('active', correo === 'ANDREANI');
     
-    // Reglas de negocio para modalidades según la empresa
     let selectTipo = document.getElementById('tipoEnvio');
     let opcionCR = selectTipo.querySelector('option[value="cr"]');
 
@@ -38,12 +37,13 @@ function seleccionarCorreo(correo) {
         if (selectTipo.value === 'cr') selectTipo.value = 'estandar';
         opcionCR.disabled = true;
         opcionCR.innerText = "Contra Reembolso (No disponible en Andreani)";
+        document.getElementById('modalidadEnvio').disabled = false;
     } else {
         opcionCR.disabled = false;
-        opcionCR.innerText = "Contra Reembolso (Cobro de producto en destino)";
+        opcionCR.innerText = "Contra Reembolso (Sucursal Oficial - Cobro en destino)";
     }
 
-    calcularVolumetrico();
+    actualizarReglasCR();
 }
 
 function calcularVolumetrico() {
