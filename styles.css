@@ -242,3 +242,17 @@ hr { border: none; height: 1px; background: rgba(255, 255, 255, 0.08); margin: 1
 }
 
 .subtext-vol { font-size: 0.7rem; color: #818cf8; text-align: right; margin-top: 2px; }
+
+.tab-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.tab-img {
+    height: 18px;
+    width: auto;
+    object-fit: contain;
+}
+
