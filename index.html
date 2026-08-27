@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     
-    <!-- Archivo CSS externo -->
+    <!-- CSS Externo -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -21,7 +21,7 @@
 <div class="box">
     <h2>Armado de Precios</h2>
     
-    <!-- Selector con Imágenes Full Cover -->
+    <!-- Selector de Logística -->
     <label>Empresa de Logística</label>
     <div class="courier-selector">
         <div class="courier-card active" id="btn-ca" onclick="seleccionarCorreo('CA')">
@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    <!-- Calculador de Medidas / Volumétrico -->
+    <!-- Calculador Volumétrico -->
     <label>Dimensiones del Paquete (CM)</label>
     <div class="grid-3">
         <div>
@@ -77,7 +77,7 @@
         </div>
         <div>
             <label for="costoEnvio">Costo Envío ($)</label>
-            <input type="text" id="costoEnvio" inputmode="numeric" placeholder="Calculado..." oninput="formatearEntrada(this)">
+            <input type="text" id="costoEnvio" inputmode="numeric" placeholder="Calculado..." oninput="formatearEntrada(this)" disabled>
         </div>
     </div>
 
@@ -86,7 +86,7 @@
         <label for="tipoEnvio">Modalidad de Cobro</label>
         <select id="tipoEnvio" onchange="calcular()">
             <option value="estandar">Envío Estándar (Sin cobro en destino)</option>
-            <option value="cr">Contra Reembolso (Cobro en destino)</option>
+            <option value="cr">Contra Reembolso (Cobro de producto en destino)</option>
         </select>
     </div>
 
@@ -131,7 +131,7 @@
     </div>
 </div>
 
-<!-- Archivo JavaScript externo -->
+<!-- JS Externo -->
 <script src="script.js"></script>
 </body>
 </html>
