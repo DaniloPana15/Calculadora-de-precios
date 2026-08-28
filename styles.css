@@ -273,4 +273,15 @@ hr { border: none; height: 1px; background: rgba(255, 255, 255, 0.08); margin: 1
     background: transparent !important;
 }
 
+/* EFECTO NEÓN AMARILLO PARA MERCADO LIBRE */
+.tab-btn.active .btn-full-img,
+.tab-btn-img.active {
+    opacity: 1 !important;
+    filter: drop-shadow(0 0 10px #ffe600) drop-shadow(0 0 20px rgba(255, 230, 0, 0.8));
+    box-shadow: 0 0 15px rgba(255, 230, 0, 0.6);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+
 
