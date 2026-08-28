@@ -200,27 +200,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Manejo de la animación y desplazamiento del botón "Probar ahora"
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Seleccionamos el botón por su clase .btn-hero-probar
     const btnProbar = document.querySelector('.btn-hero-probar');
+    // 2. Seleccionamos la sección de la calculadora por su ID #calculadora
     const calculadoraSeccion = document.getElementById('calculadora');
 
+    // Verificamos que ambos elementos existan en la página
     if (btnProbar && calculadoraSeccion) {
+        // 3. Agregamos un "escuchador" para el evento de clic en el botón
         btnProbar.addEventListener('click', (e) => {
-            // Prevenir el comportamiento por defecto del enlace
+            // Prevenir el comportamiento por defecto del enlace (que saltaría de golpe)
             e.preventDefault();
 
-            // Añadir la clase de animación
+            // 4. Añadimos la clase CSS .slide-bottom que activa la animación
             btnProbar.classList.add('slide-bottom');
 
-            // Esperar a que termine la animación (400ms) antes de desplazarse
+            // 5. Esperamos a que termine la animación (400ms coincidiento con el CSS)
+            // antes de realizar el desplazamiento suave
             setTimeout(() => {
                 calculadoraSeccion.scrollIntoView({
                     behavior: 'smooth'
                 });
 
-                // Opcional: quitar la clase después de la animación para que pueda volver a usarse si se sube
+                // Opcional: quitar la clase después de la animación si quieres que el botón
+                // reaparezca en su lugar original si el usuario vuelve a subir
                 // setTimeout(() => btnProbar.classList.remove('slide-bottom'), 100);
-            }, 400); // 400ms coincide con la duración de la animación (0.4s)
+            }, 400); // 400ms = 0.4s
         });
     }
 });
-
