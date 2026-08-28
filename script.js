@@ -197,3 +197,30 @@ function calcular() {
 document.addEventListener('DOMContentLoaded', () => {
     calcularCostoFlete();
 });
+
+// Manejo de la animación y desplazamiento del botón "Probar ahora"
+document.addEventListener('DOMContentLoaded', () => {
+    const btnProbar = document.querySelector('.btn-hero-probar');
+    const calculadoraSeccion = document.getElementById('calculadora');
+
+    if (btnProbar && calculadoraSeccion) {
+        btnProbar.addEventListener('click', (e) => {
+            // Prevenir el comportamiento por defecto del enlace
+            e.preventDefault();
+
+            // Añadir la clase de animación
+            btnProbar.classList.add('slide-bottom');
+
+            // Esperar a que termine la animación (400ms) antes de desplazarse
+            setTimeout(() => {
+                calculadoraSeccion.scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                // Opcional: quitar la clase después de la animación para que pueda volver a usarse si se sube
+                // setTimeout(() => btnProbar.classList.remove('slide-bottom'), 100);
+            }, 400); // 400ms coincide con la duración de la animación (0.4s)
+        });
+    }
+});
+
