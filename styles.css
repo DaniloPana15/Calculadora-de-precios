@@ -355,6 +355,15 @@ hr { border: none; height: 1px; background: rgba(255, 255, 255, 0.08); margin: 1
     transition: all 0.3s ease;
 }
 
+/* Definición de la animación de deslizamiento hacia abajo */
+@keyframes slide-bottom {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100px);
+  }
+}
 
 
 
