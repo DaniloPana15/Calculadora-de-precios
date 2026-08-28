@@ -365,6 +365,10 @@ hr { border: none; height: 1px; background: rgba(255, 255, 255, 0.08); margin: 1
   }
 }
 
+/* Clase que aplica la animación slide-bottom */
+.slide-bottom {
+  animation: slide-bottom 0.4s linear both;
+}
 
 
 
