@@ -12,7 +12,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 20px;
+    padding: 0 0 40px 0; /* Cambio: 0 a los lados para pegar la imagen al borde */
 }
 
 /* --- NUEVO HERO RESPONSIVO --- */
@@ -22,10 +22,10 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Imagen y contenedor para CELULARES */
+/* HERO DE BORDES COMPLETOS CON DESVANECIDO INFERIOR */
 .hero-banner {
     position: relative;
-    width: 100%;
+    width: 100vw; /* Ocupa el 100% del ancho de la pantalla */
     min-height: 90vh;
     background: url('hero-mobile.jpg') center center / cover no-repeat;
     display: flex;
@@ -33,16 +33,22 @@ html {
     justify-content: center;
     text-align: center;
     padding: 20px;
-    margin-bottom: 30px;
-    border-radius: 0 0 24px 24px;
+    margin-bottom: 20px;
+    border-radius: 0; /* Eliminamos bordes redondeados duros */
     overflow: hidden;
+
+    /* Mascara para desvanecer suavemente el fondo abajo */
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
 }
 
+/* OSCURECIDO Y FUNDIDO INFERIOR */
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(10, 10, 18, 0.35);
+    background: linear-gradient(to bottom, rgba(10, 10, 18, 0.2) 50%, #0d0e17 100%);
 }
+
 
 .hero-content {
     position: relative;
@@ -100,7 +106,6 @@ html {
     .hero-banner {
         min-height: 85vh;
         background-image: url('hero-pc.jpg');
-        border-radius: 0 0 36px 36px;
     }
 
     .hero-title {
@@ -117,6 +122,7 @@ html {
         font-size: 0.95rem;
     }
 }
+
 
 
 /* CHIPS DE PLATAFORMAS CON DEGRADADOS */
