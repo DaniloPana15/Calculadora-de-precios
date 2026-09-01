@@ -109,6 +109,7 @@
     </div>
 
     <!-- PANEL 2: MERCADO LIBRE -->
+   <!-- PANEL 2: MERCADO LIBRE -->
     <div id="panel-meli" style="display: none;">
         <div class="grid-2">
             <div>
@@ -127,12 +128,86 @@
                 </select>
             </div>
         </div>
-        <div class="input-group">
-            <label for="costoEnvioMeli">Costo Envío Fijo Mercado Envíos ($)</label>
-            <input type="text" id="costoEnvioMeli" inputmode="numeric" placeholder="Ej: 6.500" oninput="formatearEntrada(this)">
+
+        <div class="grid-2">
+            <div>
+                <label for="costoEnvioMeli">Costo Envío Base ($)</label>
+                <input type="text" id="costoEnvioMeli" inputmode="numeric" placeholder="Ej: 6.500" oninput="formatearEntrada(this)">
+            </div>
+            <div>
+                <label for="costoFijoMeli">Costo Fijo / Unidad ($)</label>
+                <input type="text" id="costoFijoMeli" inputmode="numeric" placeholder="Ej: 1.500" value="1.500" oninput="formatearEntrada(this)">
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div>
+                <label for="porcentajeAds">% Product Ads (ACOS)</label>
+                <input type="text" id="porcentajeAds" inputmode="numeric" placeholder="Ej: 4" value="4" oninput="calcular()">
+            </div>
+            <div>
+                <label for="porcentajeImpuestos">% Impuestos / Retenciones</label>
+                <input type="text" id="porcentajeImpuestos" inputmode="numeric" placeholder="Ej: 3" value="3" oninput="calcular()">
+            </div>
         </div>
     </div>
 
+    <!-- INPUTS DEL PRODUCTO -->
+    <div class="grid-2">
+        <div>
+            <label for="costoProducto">Costo Producto ($)</label>
+            <input type="text" id="costoProducto" inputmode="numeric" placeholder="Ej: 15.000" oninput="formatearEntrada(this)">
+        </div>
+        <div>
+            <div class="header-label-group">
+                <label for="margenGanancia">% Margen Objetivo</label>
+                <button type="button" class="btn-rec" onclick="usarMargenRecomendado()">70%</button>
+            </div>
+            <input type="text" id="margenGanancia" inputmode="numeric" placeholder="Ej: 70" oninput="calcular()">
+        </div>
+    </div>
+
+    <!-- RESULTADO DESTACADO -->
+    <div class="card-result">
+        <div class="card-label">Precio Final de Venta Sugerido</div>
+        <span id="precioPublicado" class="highlight">$0</span>
+    </div>
+
+    <hr>
+
+    <!-- DESGLOSE DE RESULTADOS Y DOS ESCENARIOS -->
+    <div class="res-row">
+        <span>Comisión Plataforma / Servicio</span>
+        <span id="comisionCobrada">$0</span>
+    </div>
+    <div id="row-ads" class="res-row" style="display:none;">
+        <span>Reserva Publicidad / Product Ads</span>
+        <span id="montoAds">$0</span>
+    </div>
+    <div id="row-impuestos" class="res-row" style="display:none;">
+        <span>Retenciones / Impuestos Estimados</span>
+        <span id="montoImpuestos">$0</span>
+    </div>
+
+    <hr>
+
+    <!-- COMPARATIVA GANANCIA CON ADS VS ORGANICA -->
+    <div class="res-row profit">
+        <span>Ganancia Neta (Venta con Ads)</span>
+        <span id="gananciaNeta">$0</span>
+    </div>
+    <div id="row-ganancia-organica" class="res-row profit" style="display:none;">
+        <span>Ganancia Neta (Venta Orgánica)</span>
+        <span id="gananciaOrganica" style="color:#00ff66;">$0</span>
+    </div>
+
+    <div class="res-row profit" style="margin-top: 12px;">
+        <span>Rentabilidad Efectiva (sobre Costo)</span>
+        <div>
+            <span id="porcentajeReal">0%</span>
+            <span id="badgeEstado" class="badge-status status-low" style="display:none;">Riesgo</span>
+        </div>
+    </div>
     <!-- INPUTS DEL PRODUCTO -->
     <div class="grid-2">
         <div>
