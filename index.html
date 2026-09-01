@@ -6,8 +6,8 @@
     <title>Calculadora E-Commerce & Logística</title>
     
     <!-- Un solo PNG de alta calidad para todos los dispositivos y plataformas -->
-<link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
-<link rel="apple-touch-icon" href="favicon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
     
     <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,19 +27,18 @@
     </div>
 </header>
 
-
 <!-- CONTENEDOR PRINCIPAL -->
 <main class="box" id="calculadora">
     
     <!-- PESTAÑAS DE NAVEGACIÓN -->
-<div class="tabs-container">
-    <button class="tab-btn active" id="tab-logistica" onclick="cambiarModo('logistica')">
-        🚚 Logística Directa
-    </button>
-    <button class="tab-btn tab-btn-img" id="tab-meli" onclick="cambiarModo('meli')">
-        <img src="meli-logo.png" alt="Mercado Libre" class="btn-full-img">
-    </button>
-</div>
+    <div class="tabs-container">
+        <button class="tab-btn active" id="tab-logistica" onclick="cambiarModo('logistica')">
+            🚚 Logística Directa
+        </button>
+        <button class="tab-btn tab-btn-img" id="tab-meli" onclick="cambiarModo('meli')">
+            <img src="meli-logo.png" alt="Mercado Libre" class="btn-full-img">
+        </button>
+    </div>
 
     <h2 id="titulo-seccion">Armado de Precios Directo</h2>
     
@@ -109,7 +108,6 @@
     </div>
 
     <!-- PANEL 2: MERCADO LIBRE -->
-   <!-- PANEL 2: MERCADO LIBRE -->
     <div id="panel-meli" style="display: none;">
         <div class="grid-2">
             <div>
@@ -203,45 +201,6 @@
 
     <div class="res-row profit" style="margin-top: 12px;">
         <span>Rentabilidad Efectiva (sobre Costo)</span>
-        <div>
-            <span id="porcentajeReal">0%</span>
-            <span id="badgeEstado" class="badge-status status-low" style="display:none;">Riesgo</span>
-        </div>
-    </div>
-    <!-- INPUTS DEL PRODUCTO -->
-    <div class="grid-2">
-        <div>
-            <label for="costoProducto">Costo Producto ($)</label>
-            <input type="text" id="costoProducto" inputmode="numeric" placeholder="Ej: 15.000" oninput="formatearEntrada(this)">
-        </div>
-        <div>
-            <div class="header-label-group">
-                <label for="margenGanancia">% Margen</label>
-                <button type="button" class="btn-rec" onclick="usarMargenRecomendado()">70%</button>
-            </div>
-            <input type="text" id="margenGanancia" inputmode="numeric" placeholder="Ej: 70" oninput="calcular()">
-        </div>
-    </div>
-
-    <!-- RESULTADO DESTACADO -->
-    <div class="card-result">
-        <div class="card-label">Precio Final de Venta Sugerido</div>
-        <span id="precioPublicado" class="highlight">$0</span>
-    </div>
-
-    <hr>
-
-    <!-- DESGLOSE CON COLORES NEÓN -->
-    <div class="res-row">
-        <span>Ganancia Neta Limpia</span>
-        <span id="gananciaNeta">$0</span>
-    </div>
-    <div class="res-row">
-        <span>Comisión de Plataforma / Servicio</span>
-        <span id="comisionCobrada">$0</span>
-    </div>
-    <div class="res-row profit">
-        <span>Rentabilidad Efectiva</span>
         <div>
             <span id="porcentajeReal">0%</span>
             <span id="badgeEstado" class="badge-status status-low" style="display:none;">Riesgo</span>
