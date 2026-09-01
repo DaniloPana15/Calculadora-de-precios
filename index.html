@@ -107,9 +107,27 @@
         </div>
     </div>
 
-   <!-- PANEL 2: MERCADO LIBRE -->
-    <!-- PANEL 2: MERCADO LIBRE -->
+  <!-- PANEL 2: MERCADO LIBRE (REORGANIZADO UX) -->
 <div id="panel-meli" style="display: none;">
+
+    <!-- SECCIÓN 1: DATOS DEL PRODUCTO -->
+    <div class="form-section-title">1. Costo y Margen deseado</div>
+    <div class="grid-2">
+        <div>
+            <label for="costoProducto">Costo Producto ($)</label>
+            <input type="text" id="costoProducto" inputmode="numeric" placeholder="Ej: 15.000" oninput="formatearEntrada(this)">
+        </div>
+        <div>
+            <div class="header-label-group">
+                <label for="margenGanancia">% Margen Objetivo</label>
+                <button type="button" class="btn-rec" onclick="usarMargenRecomendado()">70%</button>
+            </div>
+            <input type="text" id="margenGanancia" inputmode="numeric" placeholder="Ej: 70" value="70" oninput="calcular()">
+        </div>
+    </div>
+
+    <!-- SECCIÓN 2: CONFIGURACIÓN DE PUBLICACIÓN -->
+    <div class="form-section-title">2. Parámetros de Mercado Libre</div>
     <div class="input-group">
         <label for="categoriaMeli">Categoría del Producto</label>
         <select id="categoriaMeli" onchange="obtenerComisionesMeli()">
@@ -126,40 +144,40 @@
             </select>
         </div>
         <div>
-            <label for="porcentajeComisionMeli">Comisión MeLi Base</label>
-            <input type="text" id="porcentajeComisionMeli" value="14%" disabled style="background: rgba(15, 23, 42, 0.4); color: #ffe600; font-weight: 700;">
-        </div>
-    </div>
-
-    <div class="grid-2">
-        <div>
-            <label for="reputacionMeli">Reputación</label>
+            <label for="reputacionMeli">Reputación Termómetro</label>
             <select id="reputacionMeli" onchange="calcular()">
                 <option value="verde">Líder / Verde (50% desc. envío)</option>
                 <option value="amarillo">Amarilla (40% desc. envío)</option>
                 <option value="sin">Sin reputación (0% desc.)</option>
             </select>
         </div>
-        <div>
-            <label for="costoEnvioMeli">Costo Envío Base ($)</label>
-            <input type="text" id="costoEnvioMeli" placeholder="Automático" disabled style="background: rgba(15, 23, 42, 0.4); color: #94a3b8;">
-        </div>
     </div>
 
     <div class="grid-2">
         <div>
-            <label for="costoFijoMeli">Costo Fijo / Unidad ($)</label>
-            <input type="text" id="costoFijoMeli" inputmode="numeric" value="1.500" disabled style="background: rgba(15, 23, 42, 0.4); color: #94a3b8;">
-        </div>
-        <div>
             <label for="porcentajeAds">% Product Ads (ACOS)</label>
             <input type="text" id="porcentajeAds" inputmode="numeric" placeholder="Ej: 4" value="4" oninput="calcular()">
         </div>
+        <div>
+            <label for="porcentajeImpuestos">% Impuestos / IIBB</label>
+            <input type="text" id="porcentajeImpuestos" inputmode="numeric" placeholder="Ej: 3" value="3" oninput="calcular()">
+        </div>
     </div>
 
-    <div class="input-group">
-        <label for="porcentajeImpuestos">% Impuestos / Retenciones</label>
-        <input type="text" id="porcentajeImpuestos" inputmode="numeric" placeholder="Ej: 3" value="3" oninput="calcular()">
+    <!-- SECCIÓN 3: REGLAS AUTOMÁTICAS (LECTURA SOLAMENTE, NO INPUTS) -->
+    <div class="info-chips-container">
+        <div class="info-chip">
+            <span class="chip-label">Comisión Categoría:</span>
+            <span class="chip-value" id="porcentajeComisionMeli">14%</span>
+        </div>
+        <div class="info-chip">
+            <span class="chip-label">Envío Base Est.:</span>
+            <span class="chip-value" id="displayCostoEnvio">$6.500</span>
+        </div>
+        <div class="info-chip">
+            <span class="chip-label">Costo Fijo / Unidad:</span>
+            <span class="chip-value">$1.500</span>
+        </div>
     </div>
 </div>
 
