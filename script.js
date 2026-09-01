@@ -1,23 +1,23 @@
 let correoSeleccionado = 'CA';
 let modoActual = 'logistica';
 
-// Matriz de categorías completa con tasas base de Mercado Libre Argentina (Clásica / Premium)
+// Matriz de categorías con comisiones fijas (Clásica/Premium) y costo base de envío promedio por categoría
 const CATEGORIAS_MELI = [
-    { id: 'general', nombre: 'General / Estándar', clasica: 0.14, premium: 0.29 },
-    { id: 'belleza', nombre: 'Belleza y Cuidado Personal', clasica: 0.14, premium: 0.29 },
-    { id: 'barberia', nombre: 'Barbería y Peluquería Pro', clasica: 0.13, premium: 0.28 },
-    { id: 'pelucas', nombre: 'Pelucas y Extensiones de Cabello', clasica: 0.14, premium: 0.29 },
-    { id: 'herramientas', nombre: 'Herramientas y Construcción', clasica: 0.13, premium: 0.28 },
-    { id: 'electronica', nombre: 'Electrónica, Audio y Video', clasica: 0.12, premium: 0.27 },
-    { id: 'celulares', nombre: 'Celulares y Telefonía', clasica: 0.10, premium: 0.25 },
-    { id: 'computacion', nombre: 'Computación y Laptops', clasica: 0.11, premium: 0.26 },
-    { id: 'ropa', nombre: 'Ropa, Calzado y Accesorios', clasica: 0.15, premium: 0.30 },
-    { id: 'hogar', nombre: 'Hogar, Muebles y Jardín', clasica: 0.135, premium: 0.285 },
-    { id: 'deportes', nombre: 'Deportes y Fitness', clasica: 0.14, premium: 0.29 },
-    { id: 'juguetes', nombre: 'Juegos y Juguetes', clasica: 0.14, premium: 0.29 },
-    { id: 'vehiculos_acc', nombre: 'Accesorios para Vehículos', clasica: 0.145, premium: 0.295 },
-    { id: 'salud', nombre: 'Salud y Equipamiento Médico', clasica: 0.13, premium: 0.28 },
-    { id: 'alimentos', nombre: 'Alimentos y Bebidas', clasica: 0.12, premium: 0.27 }
+    { id: 'general', nombre: 'General / Estándar', clasica: 0.14, premium: 0.29, envioBase: 6500 },
+    { id: 'belleza', nombre: 'Belleza y Cuidado Personal', clasica: 0.14, premium: 0.29, envioBase: 5800 },
+    { id: 'barberia', nombre: 'Barbería y Peluquería Pro', clasica: 0.13, premium: 0.28, envioBase: 6200 },
+    { id: 'pelucas', nombre: 'Pelucas y Extensiones de Cabello', clasica: 0.14, premium: 0.29, envioBase: 5500 },
+    { id: 'herramientas', nombre: 'Herramientas y Construcción', clasica: 0.13, premium: 0.28, envioBase: 7800 },
+    { id: 'electronica', nombre: 'Electrónica, Audio y Video', clasica: 0.12, premium: 0.27, envioBase: 7200 },
+    { id: 'celulares', nombre: 'Celulares y Telefonía', clasica: 0.10, premium: 0.25, envioBase: 6000 },
+    { id: 'computacion', nombre: 'Computación y Laptops', clasica: 0.11, premium: 0.26, envioBase: 8500 },
+    { id: 'ropa', nombre: 'Ropa, Calzado y Accesorios', clasica: 0.15, premium: 0.30, envioBase: 5800 },
+    { id: 'hogar', nombre: 'Hogar, Muebles y Jardín', clasica: 0.135, premium: 0.285, envioBase: 9200 },
+    { id: 'deportes', nombre: 'Deportes y Fitness', clasica: 0.14, premium: 0.29, envioBase: 7000 },
+    { id: 'juguetes', nombre: 'Juegos y Juguetes', clasica: 0.14, premium: 0.29, envioBase: 6400 },
+    { id: 'vehiculos_acc', nombre: 'Accesorios para Vehículos', clasica: 0.145, premium: 0.295, envioBase: 7500 },
+    { id: 'salud', nombre: 'Salud y Equipamiento Médico', clasica: 0.13, premium: 0.28, envioBase: 6100 },
+    { id: 'alimentos', nombre: 'Alimentos y Bebidas', clasica: 0.12, premium: 0.27, envioBase: 5900 }
 ];
 
 let comisionMeliClasica = 0.14;
@@ -48,9 +48,25 @@ function obtenerComisionesMeli() {
     if (categoriaEncontrada) {
         comisionMeliClasica = categoriaEncontrada.clasica;
         comisionMeliPremium = categoriaEncontrada.premium;
-    } else {
-        comisionMeliClasica = 0.14;
-        comisionMeliPremium = 0.29;
+
+        // Auto-completar costo de envío automático
+        const inputEnvioMeli = document.getElementById('costoEnvioMeli');
+        if (inputEnvioMeli) {
+            inputEnvioMeli.value = categoriaEncontrada.envioBase.toLocaleString('es-AR');
+        }
+    }
+
+    actualizarComisionMeliDisplay();
+}
+
+function actualizarComisionMeliDisplay() {
+    const tipoPub = document.getElementById('tipoPublicacion').value;
+    const inputPct = document.getElementById('porcentajeComisionMeli');
+    
+    let porcentajeAplicado = (tipoPub === 'gold_special') ? comisionMeliClasica : comisionMeliPremium;
+    
+    if (inputPct) {
+        inputPct.value = (porcentajeAplicado * 100).toFixed(1) + "%";
     }
 
     calcular();
