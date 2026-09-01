@@ -1,6 +1,61 @@
 let correoSeleccionado = 'CA';
 let modoActual = 'logistica';
 
+// Variables para guardar las comisiones exactas que nos dé Mercado Libre
+let comisionMeliClasica = 0.14; // Valor inicial por si falla la conexión (14%)
+let comisionMeliPremium = 0.29; // Valor inicial por si falla la conexión (29%)
+
+// 1. Esta función le pide a Mercado Libre la lista de todas sus categorías
+async function cargarCategoriasMeli() {
+    const selectCat = document.getElementById('categoriaMeli');
+    if (!selectCat) return;
+
+    try {
+        // Consultamos a los servidores de Mercado Libre Argentina
+        const respuesta = await fetch('https://api.mercadolibre.com/sites/MLA/categories');
+        const categorias = await respuesta.json();
+
+        // Limpiamos el desplegable y lo llenamos con las categorías reales
+        selectCat.innerHTML = '';
+        categorias.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.id; // El código interno de la categoría (ej: MLA1246)
+            option.innerText = cat.name; // El nombre visible (ej: Belleza y Cuidado Personal)
+            selectCat.appendChild(option);
+        });
+
+        // Una vez cargadas, consultamos la comisión de la primera categoría
+        obtenerComisionesMeli();
+    } catch (error) {
+        console.error("Error al conectar con Mercado Libre:", error);
+        selectCat.innerHTML = '<option value="MLA1246">Cargar categoría por defecto</option>';
+    }
+}
+
+// 2. Esta función consulta el porcentaje exacto de la categoría seleccionada
+async function obtenerComisionesMeli() {
+    const catId = document.getElementById('categoriaMeli').value || 'MLA1246';
+    const costoProd = obtenerNumero('costoProducto') || 10000; 
+
+    try {
+        // Le preguntamos a Mercado Libre cuánto cobra en esta categoría específica
+        const respuesta = await fetch(`https://api.mercadolibre.com/sites/MLA/listing_prices?price=${costoProd}&category_id=${catId}`);
+        const data = await respuesta.json();
+
+        // Extraemos la comisión de Clásica y de Premium
+        const clasicaData = data.find(item => item.listing_type_id === 'gold_special');
+        const premiumData = data.find(item => item.listing_type_id === 'gold_pro');
+
+        if (clasicaData) comisionMeliClasica = clasicaData.sale_fee_percentage / 100;
+        if (premiumData) comisionMeliPremium = premiumData.sale_fee_percentage / 100;
+
+        // Volvemos a calcular la matemática en pantalla con los nuevos números
+        calcular();
+    } catch (error) {
+        console.error("Error al obtener comisiones:", error);
+    }
+}
+
 const TARIFAS = {
     CA: {
         regional: { sucursal: { 1: 14500, 5: 18000, 10: 24000 }, domicilio: { 1: 18400, 5: 21800, 10: 29300 } },
@@ -188,7 +243,17 @@ function calcular() {
 
         let pctAds = obtenerNumero('porcentajeAds') / 100;
         let pctImpuestos = obtenerNumero('porcentajeImpuestos') / 100;
-        let pctMeli = (tipoPub === 'clasica') ? 0.14 : 0.29;
+
+        // --- INICIO DE MODIFICACIÓN DEL PASO 4 ---
+        // Asignamos el % que trajimos dinámicamente desde la API (gold_special = Clásica, gold_pro = Premium)
+        let pctMeli = (tipoPub === 'gold_special') ? comisionMeliClasica : comisionMeliPremium;
+
+        // Actualizamos el visor en pantalla del porcentaje real obtenido
+        const txtPorcentaje = document.getElementById('porcentajeComisionMeli');
+        if (txtPorcentaje) {
+            txtPorcentaje.innerText = (pctMeli * 100).toFixed(2) + "%";
+        }
+        // --- FIN DE MODIFICACIÓN DEL PASO 4 ---
 
         // Descuento en envío según reputación
         let descEnvio = (rep === 'verde') ? 0.50 : (rep === 'amarillo') ? 0.40 : 0;
@@ -245,36 +310,24 @@ function calcular() {
 
 document.addEventListener('DOMContentLoaded', () => {
     calcularCostoFlete();
+    cargarCategoriasMeli(); // Carga las categorías al iniciar la página
 });
 
 // Manejo de la animación y desplazamiento del botón "Probar ahora"
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Seleccionamos el botón por su clase .btn-hero-probar
     const btnProbar = document.querySelector('.btn-hero-probar');
-    // 2. Seleccionamos la sección de la calculadora por su ID #calculadora
     const calculadoraSeccion = document.getElementById('calculadora');
 
-    // Verificamos que ambos elementos existan en la página
     if (btnProbar && calculadoraSeccion) {
-        // 3. Agregamos un "escuchador" para el evento de clic en el botón
         btnProbar.addEventListener('click', (e) => {
-            // Prevenir el comportamiento por defecto del enlace (que saltaría de golpe)
             e.preventDefault();
-
-            // 4. Añadimos la clase CSS .slide-bottom que activa la animación
             btnProbar.classList.add('slide-bottom');
 
-            // 5. Esperamos a que termine la animación (400ms coincidiento con el CSS)
-            // antes de realizar el desplazamiento suave
             setTimeout(() => {
                 calculadoraSeccion.scrollIntoView({
                     behavior: 'smooth'
                 });
-
-                // Opcional: quitar la clase después de la animación si quieres que el botón
-                // reaparezca en su lugar original si el usuario vuelve a subir
-                // setTimeout(() => btnProbar.classList.remove('slide-bottom'), 100);
-            }, 400); // 400ms = 0.4s
+            }, 400);
         });
     }
 });
