@@ -1,59 +1,59 @@
 let correoSeleccionado = 'CA';
 let modoActual = 'logistica';
 
-// Variables para guardar las comisiones exactas que nos dé Mercado Libre
-let comisionMeliClasica = 0.14; // Valor inicial por si falla la conexión (14%)
-let comisionMeliPremium = 0.29; // Valor inicial por si falla la conexión (29%)
+// Matriz de categorías completa con tasas base de Mercado Libre Argentina (Clásica / Premium)
+const CATEGORIAS_MELI = [
+    { id: 'general', nombre: 'General / Estándar', clasica: 0.14, premium: 0.29 },
+    { id: 'belleza', nombre: 'Belleza y Cuidado Personal', clasica: 0.14, premium: 0.29 },
+    { id: 'barberia', nombre: 'Barbería y Peluquería Pro', clasica: 0.13, premium: 0.28 },
+    { id: 'pelucas', nombre: 'Pelucas y Extensiones de Cabello', clasica: 0.14, premium: 0.29 },
+    { id: 'herramientas', nombre: 'Herramientas y Construcción', clasica: 0.13, premium: 0.28 },
+    { id: 'electronica', nombre: 'Electrónica, Audio y Video', clasica: 0.12, premium: 0.27 },
+    { id: 'celulares', nombre: 'Celulares y Telefonía', clasica: 0.10, premium: 0.25 },
+    { id: 'computacion', nombre: 'Computación y Laptops', clasica: 0.11, premium: 0.26 },
+    { id: 'ropa', nombre: 'Ropa, Calzado y Accesorios', clasica: 0.15, premium: 0.30 },
+    { id: 'hogar', nombre: 'Hogar, Muebles y Jardín', clasica: 0.135, premium: 0.285 },
+    { id: 'deportes', nombre: 'Deportes y Fitness', clasica: 0.14, premium: 0.29 },
+    { id: 'juguetes', nombre: 'Juegos y Juguetes', clasica: 0.14, premium: 0.29 },
+    { id: 'vehiculos_acc', nombre: 'Accesorios para Vehículos', clasica: 0.145, premium: 0.295 },
+    { id: 'salud', nombre: 'Salud y Equipamiento Médico', clasica: 0.13, premium: 0.28 },
+    { id: 'alimentos', nombre: 'Alimentos y Bebidas', clasica: 0.12, premium: 0.27 }
+];
 
-// 1. Esta función le pide a Mercado Libre la lista de todas sus categorías
-async function cargarCategoriasMeli() {
+let comisionMeliClasica = 0.14;
+let comisionMeliPremium = 0.29;
+
+function cargarCategoriasMeli() {
     const selectCat = document.getElementById('categoriaMeli');
     if (!selectCat) return;
 
-    try {
-        // Consultamos a los servidores de Mercado Libre Argentina
-        const respuesta = await fetch('https://api.mercadolibre.com/sites/MLA/categories');
-        const categorias = await respuesta.json();
+    selectCat.innerHTML = '';
+    CATEGORIAS_MELI.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat.id;
+        option.innerText = cat.nombre;
+        selectCat.appendChild(option);
+    });
 
-        // Limpiamos el desplegable y lo llenamos con las categorías reales
-        selectCat.innerHTML = '';
-        categorias.forEach(cat => {
-            const option = document.createElement('option');
-            option.value = cat.id; // El código interno de la categoría (ej: MLA1246)
-            option.innerText = cat.name; // El nombre visible (ej: Belleza y Cuidado Personal)
-            selectCat.appendChild(option);
-        });
-
-        // Una vez cargadas, consultamos la comisión de la primera categoría
-        obtenerComisionesMeli();
-    } catch (error) {
-        console.error("Error al conectar con Mercado Libre:", error);
-        selectCat.innerHTML = '<option value="MLA1246">Cargar categoría por defecto</option>';
-    }
+    obtenerComisionesMeli();
 }
 
-// 2. Esta función consulta el porcentaje exacto de la categoría seleccionada
-async function obtenerComisionesMeli() {
-    const catId = document.getElementById('categoriaMeli').value || 'MLA1246';
-    const costoProd = obtenerNumero('costoProducto') || 10000; 
+function obtenerComisionesMeli() {
+    const selectCat = document.getElementById('categoriaMeli');
+    if (!selectCat) return;
 
-    try {
-        // Le preguntamos a Mercado Libre cuánto cobra en esta categoría específica
-        const respuesta = await fetch(`https://api.mercadolibre.com/sites/MLA/listing_prices?price=${costoProd}&category_id=${catId}`);
-        const data = await respuesta.json();
+    const catId = selectCat.value || 'general';
+    const categoriaEncontrada = CATEGORIAS_MELI.find(cat => cat.id === catId);
 
-        // Extraemos la comisión de Clásica y de Premium
-        const clasicaData = data.find(item => item.listing_type_id === 'gold_special');
-        const premiumData = data.find(item => item.listing_type_id === 'gold_pro');
-
-        if (clasicaData) comisionMeliClasica = clasicaData.sale_fee_percentage / 100;
-        if (premiumData) comisionMeliPremium = premiumData.sale_fee_percentage / 100;
-
-        // Volvemos a calcular la matemática en pantalla con los nuevos números
-        calcular();
-    } catch (error) {
-        console.error("Error al obtener comisiones:", error);
+    if (categoriaEncontrada) {
+        comisionMeliClasica = categoriaEncontrada.clasica;
+        comisionMeliPremium = categoriaEncontrada.premium;
+    } else {
+        comisionMeliClasica = 0.14;
+        comisionMeliPremium = 0.29;
     }
+
+    calcular();
 }
 
 const TARIFAS = {
@@ -184,7 +184,6 @@ function calcular() {
     let margen = obtenerNumero('margenGanancia');
     let badge = document.getElementById('badgeEstado');
 
-    // Elementos de la interfaz
     let rowAds = document.getElementById('row-ads');
     let rowImpuestos = document.getElementById('row-impuestos');
     let rowGananciaOrganica = document.getElementById('row-ganancia-organica');
@@ -211,7 +210,6 @@ function calcular() {
     let gananciaLimpiaOrganica = 0;
 
     if (modoActual === 'logistica') {
-        // OCULTAR FILAS EXCLUSIVAS DE MELI
         rowAds.style.display = 'none';
         rowImpuestos.style.display = 'none';
         rowGananciaOrganica.style.display = 'none';
@@ -231,7 +229,6 @@ function calcular() {
         gananciaLimpiaAds = precioFinal - comisionMonto - costoEnvioFinal - costoProd;
 
     } else {
-        // MODO MERCADO LIBRE (ECUACIÓN COMPLETA)
         rowAds.style.display = 'flex';
         rowImpuestos.style.display = 'flex';
         rowGananciaOrganica.style.display = 'flex';
@@ -244,22 +241,16 @@ function calcular() {
         let pctAds = obtenerNumero('porcentajeAds') / 100;
         let pctImpuestos = obtenerNumero('porcentajeImpuestos') / 100;
 
-        // --- INICIO DE MODIFICACIÓN DEL PASO 4 ---
-        // Asignamos el % que trajimos dinámicamente desde la API (gold_special = Clásica, gold_pro = Premium)
         let pctMeli = (tipoPub === 'gold_special') ? comisionMeliClasica : comisionMeliPremium;
 
-        // Actualizamos el visor en pantalla del porcentaje real obtenido
         const txtPorcentaje = document.getElementById('porcentajeComisionMeli');
         if (txtPorcentaje) {
-            txtPorcentaje.innerText = (pctMeli * 100).toFixed(2) + "%";
+            txtPorcentaje.innerText = (pctMeli * 100).toFixed(1) + "%";
         }
-        // --- FIN DE MODIFICACIÓN DEL PASO 4 ---
 
-        // Descuento en envío según reputación
         let descEnvio = (rep === 'verde') ? 0.50 : (rep === 'amarillo') ? 0.40 : 0;
         costoEnvioFinal = baseEnvioMeli * (1 - descEnvio);
 
-        // Sumatoria de tasas que se cobran sobre el PVP
         let tasaTotalCargas = pctMeli + pctAds + pctImpuestos;
 
         if (tasaTotalCargas >= 1) {
@@ -267,25 +258,19 @@ function calcular() {
             return;
         }
 
-        // Subtotal de costos en pesos fijos
         let subtotalFijo = costoProd + gananciaObjetivo + costoEnvioFinal + costoFijoUnidad;
-
-        // Cálculo del Precio de Venta Público despejado
         precioFinal = Math.ceil(subtotalFijo / (1 - tasaTotalCargas));
 
-        // Desglose de montos
         comisionMonto = Math.round(precioFinal * pctMeli);
         montoAds = Math.round(precioFinal * pctAds);
         montoImpuestos = Math.round(precioFinal * pctImpuestos);
 
-        // Ganancias según el canal por donde ingrese la venta
         gananciaLimpiaAds = precioFinal - comisionMonto - costoFijoUnidad - costoEnvioFinal - montoImpuestos - montoAds - costoProd;
-        gananciaLimpiaOrganica = gananciaLimpiaAds + montoAds; // Si no hay click publicitario, la pauta queda en caja
+        gananciaLimpiaOrganica = gananciaLimpiaAds + montoAds;
     }
 
     let rentabilidadEfectiva = ((gananciaLimpiaAds / costoProd) * 100).toFixed(1);
 
-    // MOSTRAR VALORES EN PANTALLA
     document.getElementById('precioPublicado').innerText = "$" + precioFinal.toLocaleString('es-AR');
     document.getElementById('gananciaNeta').innerText = "$" + Math.round(gananciaLimpiaAds).toLocaleString('es-AR');
     document.getElementById('gananciaOrganica').innerText = "$" + Math.round(gananciaLimpiaOrganica).toLocaleString('es-AR');
@@ -294,26 +279,24 @@ function calcular() {
     document.getElementById('montoImpuestos').innerText = "$" + montoImpuestos.toLocaleString('es-AR');
     document.getElementById('porcentajeReal').innerText = rentabilidadEfectiva + "% ";
 
-    // RANGOS DE SALUD DEL MARGEN
     badge.style.display = "inline-block";
     if (rentabilidadEfectiva < 25) {
         badge.innerText = "Riesgo";
-        badge.className = "badge-status status-low"; // Rojo Neón
+        badge.className = "badge-status status-low";
     } else if (rentabilidadEfectiva <= 60) {
         badge.innerText = "Saludable";
-        badge.className = "badge-status status-good"; // Verde Neón
+        badge.className = "badge-status status-good";
     } else {
         badge.innerText = "Excelente";
-        badge.className = "badge-status status-great"; // Azul Neón
+        badge.className = "badge-status status-great";
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     calcularCostoFlete();
-    cargarCategoriasMeli(); // Carga las categorías al iniciar la página
+    cargarCategoriasMeli();
 });
 
-// Manejo de la animación y desplazamiento del botón "Probar ahora"
 document.addEventListener('DOMContentLoaded', () => {
     const btnProbar = document.querySelector('.btn-hero-probar');
     const calculadoraSeccion = document.getElementById('calculadora');
