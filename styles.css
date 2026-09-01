@@ -370,5 +370,10 @@ hr { border: none; height: 1px; background: rgba(255, 255, 255, 0.08); margin: 1
   animation: slide-bottom 0.4s linear both;
 }
 
+/* Resaltado especial para ganancia orgánica */
+#gananciaOrganica {
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(0, 255, 102, 0.4);
+}
 
 
