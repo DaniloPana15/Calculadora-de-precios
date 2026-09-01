@@ -107,14 +107,22 @@
         </div>
     </div>
 
-    <!-- PANEL 2: MERCADO LIBRE -->
+   <!-- PANEL 2: MERCADO LIBRE -->
     <div id="panel-meli" style="display: none;">
+        <!-- DESPLEGABLE DE CATEGORÍA AGREGADO -->
+        <div class="input-group">
+            <label for="categoriaMeli">Categoría del Producto</label>
+            <select id="categoriaMeli" onchange="obtenerComisionesMeli()">
+                <option value="MLA1246">Cargando categorías...</option>
+            </select>
+        </div>
+
         <div class="grid-2">
             <div>
                 <label for="tipoPublicacion">Tipo Publicación</label>
                 <select id="tipoPublicacion" onchange="calcular()">
-                    <option value="clasica">Clásica (14%)</option>
-                    <option value="premium">Premium (29%)</option>
+                    <option value="gold_special">Clásica (<span id="porcentajeComisionMeli">14%</span>)</option>
+                    <option value="gold_pro">Premium</option>
                 </select>
             </div>
             <div>
