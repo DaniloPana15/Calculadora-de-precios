@@ -129,10 +129,18 @@ function calcular() {
     let margen = obtenerNumero('margenGanancia');
     let badge = document.getElementById('badgeEstado');
 
+    // Elementos de la interfaz
+    let rowAds = document.getElementById('row-ads');
+    let rowImpuestos = document.getElementById('row-impuestos');
+    let rowGananciaOrganica = document.getElementById('row-ganancia-organica');
+
     if (costoProd <= 0) {
         document.getElementById('precioPublicado').innerText = "$0";
         document.getElementById('gananciaNeta').innerText = "$0";
+        document.getElementById('gananciaOrganica').innerText = "$0";
         document.getElementById('comisionCobrada').innerText = "$0";
+        document.getElementById('montoAds').innerText = "$0";
+        document.getElementById('montoImpuestos').innerText = "$0";
         document.getElementById('porcentajeReal').innerText = "0%";
         badge.style.display = "none";
         return;
@@ -142,8 +150,17 @@ function calcular() {
     let precioFinal = 0;
     let comisionMonto = 0;
     let costoEnvioFinal = 0;
+    let montoAds = 0;
+    let montoImpuestos = 0;
+    let gananciaLimpiaAds = 0;
+    let gananciaLimpiaOrganica = 0;
 
     if (modoActual === 'logistica') {
+        // OCULTAR FILAS EXCLUSIVAS DE MELI
+        rowAds.style.display = 'none';
+        rowImpuestos.style.display = 'none';
+        rowGananciaOrganica.style.display = 'none';
+
         costoEnvioFinal = obtenerNumero('costoEnvio');
         let tipoEnvio = document.getElementById('tipoEnvio').value;
         let subtotalNecesario = costoProd + gananciaObjetivo + costoEnvioFinal;
@@ -155,37 +172,69 @@ function calcular() {
 
         precioFinal = Math.ceil(subtotalNecesario / (1 - tasaComision));
         comisionMonto = Math.round((precioFinal * tasaComision) * 100) / 100;
+        
+        gananciaLimpiaAds = precioFinal - comisionMonto - costoEnvioFinal - costoProd;
 
     } else {
-        // MODO MERCADO LIBRE
+        // MODO MERCADO LIBRE (ECUACIÓN COMPLETA)
+        rowAds.style.display = 'flex';
+        rowImpuestos.style.display = 'flex';
+        rowGananciaOrganica.style.display = 'flex';
+
         let tipoPub = document.getElementById('tipoPublicacion').value;
         let rep = document.getElementById('reputacionMeli').value;
         let baseEnvioMeli = obtenerNumero('costoEnvioMeli');
+        let costoFijoUnidad = obtenerNumero('costoFijoMeli');
 
+        let pctAds = obtenerNumero('porcentajeAds') / 100;
+        let pctImpuestos = obtenerNumero('porcentajeImpuestos') / 100;
+        let pctMeli = (tipoPub === 'clasica') ? 0.14 : 0.29;
+
+        // Descuento en envío según reputación
         let descEnvio = (rep === 'verde') ? 0.50 : (rep === 'amarillo') ? 0.40 : 0;
         costoEnvioFinal = baseEnvioMeli * (1 - descEnvio);
 
-        let tasaMeli = (tipoPub === 'clasica') ? 0.14 : 0.29;
-        let subtotal = costoProd + gananciaObjetivo + costoEnvioFinal;
+        // Sumatoria de tasas que se cobran sobre el PVP
+        let tasaTotalCargas = pctMeli + pctAds + pctImpuestos;
 
-        precioFinal = Math.ceil(subtotal / (1 - tasaMeli));
-        comisionMonto = Math.round((precioFinal * tasaMeli) * 100) / 100;
+        if (tasaTotalCargas >= 1) {
+            alert("La suma de comisiones, publicidad e impuestos no puede ser igual o mayor al 100%");
+            return;
+        }
+
+        // Subtotal de costos en pesos fijos
+        let subtotalFijo = costoProd + gananciaObjetivo + costoEnvioFinal + costoFijoUnidad;
+
+        // Cálculo del Precio de Venta Público despejado
+        precioFinal = Math.ceil(subtotalFijo / (1 - tasaTotalCargas));
+
+        // Desglose de montos
+        comisionMonto = Math.round(precioFinal * pctMeli);
+        montoAds = Math.round(precioFinal * pctAds);
+        montoImpuestos = Math.round(precioFinal * pctImpuestos);
+
+        // Ganancias según el canal por donde ingrese la venta
+        gananciaLimpiaAds = precioFinal - comisionMonto - costoFijoUnidad - costoEnvioFinal - montoImpuestos - montoAds - costoProd;
+        gananciaLimpiaOrganica = gananciaLimpiaAds + montoAds; // Si no hay click publicitario, la pauta queda en caja
     }
 
-    let gananciaLimpia = precioFinal - comisionMonto - costoEnvioFinal - costoProd;
-    let rentabilidadEfectiva = ((gananciaLimpia / costoProd) * 100).toFixed(1);
+    let rentabilidadEfectiva = ((gananciaLimpiaAds / costoProd) * 100).toFixed(1);
 
+    // MOSTRAR VALORES EN PANTALLA
     document.getElementById('precioPublicado').innerText = "$" + precioFinal.toLocaleString('es-AR');
-    document.getElementById('gananciaNeta').innerText = "$" + Math.round(gananciaLimpia).toLocaleString('es-AR');
+    document.getElementById('gananciaNeta').innerText = "$" + Math.round(gananciaLimpiaAds).toLocaleString('es-AR');
+    document.getElementById('gananciaOrganica').innerText = "$" + Math.round(gananciaLimpiaOrganica).toLocaleString('es-AR');
     document.getElementById('comisionCobrada').innerText = "$" + comisionMonto.toLocaleString('es-AR');
+    document.getElementById('montoAds').innerText = "$" + montoAds.toLocaleString('es-AR');
+    document.getElementById('montoImpuestos').innerText = "$" + montoImpuestos.toLocaleString('es-AR');
     document.getElementById('porcentajeReal').innerText = rentabilidadEfectiva + "% ";
 
-    // RANGOS Y BORDER NEÓN
+    // RANGOS DE SALUD DEL MARGEN
     badge.style.display = "inline-block";
-    if (margen < 40) {
+    if (rentabilidadEfectiva < 25) {
         badge.innerText = "Riesgo";
         badge.className = "badge-status status-low"; // Rojo Neón
-    } else if (margen <= 80) {
+    } else if (rentabilidadEfectiva <= 60) {
         badge.innerText = "Saludable";
         badge.className = "badge-status status-good"; // Verde Neón
     } else {
