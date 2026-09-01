@@ -108,54 +108,60 @@
     </div>
 
    <!-- PANEL 2: MERCADO LIBRE -->
-    <div id="panel-meli" style="display: none;">
-        <div class="input-group">
-            <label for="categoriaMeli">Categoría del Producto</label>
-            <select id="categoriaMeli" onchange="obtenerComisionesMeli()">
-                <!-- Se poblará dinámicamente desde script.js -->
+    <!-- PANEL 2: MERCADO LIBRE -->
+<div id="panel-meli" style="display: none;">
+    <div class="input-group">
+        <label for="categoriaMeli">Categoría del Producto</label>
+        <select id="categoriaMeli" onchange="obtenerComisionesMeli()">
+            <!-- Se puebla dinámicamente -->
+        </select>
+    </div>
+
+    <div class="grid-2">
+        <div>
+            <label for="tipoPublicacion">Tipo Publicación</label>
+            <select id="tipoPublicacion" onchange="actualizarComisionMeliDisplay()">
+                <option value="gold_special">Clásica</option>
+                <option value="gold_pro">Premium</option>
             </select>
         </div>
-
-        <div class="grid-2">
-            <div>
-                <label for="tipoPublicacion">Tipo Publicación</label>
-                <select id="tipoPublicacion" onchange="calcular()">
-                    <option value="gold_special">Clásica (<span id="porcentajeComisionMeli">14%</span>)</option>
-                    <option value="gold_pro">Premium</option>
-                </select>
-            </div>
-            <div>
-                <label for="reputacionMeli">Reputación</label>
-                <select id="reputacionMeli" onchange="calcular()">
-                    <option value="verde">Líder / Verde (50% desc. envío)</option>
-                    <option value="amarillo">Amarilla (40% desc. envío)</option>
-                    <option value="sin">Sin reputación (0% desc.)</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="grid-2">
-            <div>
-                <label for="costoEnvioMeli">Costo Envío Base ($)</label>
-                <input type="text" id="costoEnvioMeli" inputmode="numeric" placeholder="Ej: 6.500" oninput="formatearEntrada(this)">
-            </div>
-            <div>
-                <label for="costoFijoMeli">Costo Fijo / Unidad ($)</label>
-                <input type="text" id="costoFijoMeli" inputmode="numeric" placeholder="Ej: 1.500" value="1.500" oninput="formatearEntrada(this)">
-            </div>
-        </div>
-
-        <div class="grid-2">
-            <div>
-                <label for="porcentajeAds">% Product Ads (ACOS)</label>
-                <input type="text" id="porcentajeAds" inputmode="numeric" placeholder="Ej: 4" value="4" oninput="calcular()">
-            </div>
-            <div>
-                <label for="porcentajeImpuestos">% Impuestos / Retenciones</label>
-                <input type="text" id="porcentajeImpuestos" inputmode="numeric" placeholder="Ej: 3" value="3" oninput="calcular()">
-            </div>
+        <div>
+            <label for="porcentajeComisionMeli">Comisión MeLi Base</label>
+            <input type="text" id="porcentajeComisionMeli" value="14%" disabled style="background: rgba(15, 23, 42, 0.4); color: #ffe600; font-weight: 700;">
         </div>
     </div>
+
+    <div class="grid-2">
+        <div>
+            <label for="reputacionMeli">Reputación</label>
+            <select id="reputacionMeli" onchange="calcular()">
+                <option value="verde">Líder / Verde (50% desc. envío)</option>
+                <option value="amarillo">Amarilla (40% desc. envío)</option>
+                <option value="sin">Sin reputación (0% desc.)</option>
+            </select>
+        </div>
+        <div>
+            <label for="costoEnvioMeli">Costo Envío Base ($)</label>
+            <input type="text" id="costoEnvioMeli" placeholder="Automático" disabled style="background: rgba(15, 23, 42, 0.4); color: #94a3b8;">
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div>
+            <label for="costoFijoMeli">Costo Fijo / Unidad ($)</label>
+            <input type="text" id="costoFijoMeli" inputmode="numeric" value="1.500" disabled style="background: rgba(15, 23, 42, 0.4); color: #94a3b8;">
+        </div>
+        <div>
+            <label for="porcentajeAds">% Product Ads (ACOS)</label>
+            <input type="text" id="porcentajeAds" inputmode="numeric" placeholder="Ej: 4" value="4" oninput="calcular()">
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label for="porcentajeImpuestos">% Impuestos / Retenciones</label>
+        <input type="text" id="porcentajeImpuestos" inputmode="numeric" placeholder="Ej: 3" value="3" oninput="calcular()">
+    </div>
+</div>
 
     <!-- INPUTS DEL PRODUCTO -->
     <div class="grid-2">
