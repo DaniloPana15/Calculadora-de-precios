@@ -12,20 +12,17 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 0 40px 0; /* Cambio: 0 a los lados para pegar la imagen al borde */
+    padding: 0 0 40px 0;
 }
 
-/* --- NUEVO HERO RESPONSIVO --- */
-
-/* Transición suave al presionar "Probar ahora" */
+/* --- HERO RESPONSIVO --- */
 html {
     scroll-behavior: smooth;
 }
 
-/* HERO DE BORDES COMPLETOS CON DESVANECIDO INFERIOR */
 .hero-banner {
     position: relative;
-    width: 100vw; /* Ocupa el 100% del ancho de la pantalla */
+    width: 100vw;
     min-height: 90vh;
     background: url('hero-mobile.jpg') center center / cover no-repeat;
     display: flex;
@@ -34,21 +31,17 @@ html {
     text-align: center;
     padding: 20px;
     margin-bottom: 20px;
-    border-radius: 0; /* Eliminamos bordes redondeados duros */
+    border-radius: 0;
     overflow: hidden;
-
-    /* Mascara para desvanecer suavemente el fondo abajo */
     -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
     mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
 }
 
-/* OSCURECIDO Y FUNDIDO INFERIOR */
 .hero-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(to bottom, rgba(10, 10, 18, 0.2) 50%, #0d0e17 100%);
 }
-
 
 .hero-content {
     position: relative;
@@ -101,7 +94,6 @@ html {
     box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
 }
 
-/* Imagen y textos para COMPUTADORAS */
 @media (min-width: 768px) {
     .hero-banner {
         min-height: 85vh;
@@ -122,8 +114,6 @@ html {
         font-size: 0.95rem;
     }
 }
-
-
 
 /* CHIPS DE PLATAFORMAS CON DEGRADADOS */
 .hero-platforms {
@@ -193,6 +183,39 @@ html {
     box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
 }
 
+/* ESTILOS DE PESTAÑA CON IMAGEN Y NEÓN MERCADO LIBRE */
+.tab-btn-img {
+    padding: 0 !important;
+    overflow: hidden;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+}
+
+.btn-full-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active .btn-full-img,
+.tab-btn-img.active {
+    opacity: 1 !important;
+    filter: drop-shadow(0 0 10px #ffe600) drop-shadow(0 0 20px rgba(255, 230, 0, 0.8));
+    box-shadow: 0 0 15px rgba(255, 230, 0, 0.6);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active.tab-btn-img {
+    background: transparent !important;
+}
+
 h2 {
     font-family: 'Syne', sans-serif;
     font-size: 1.2rem;
@@ -212,6 +235,7 @@ label {
     margin-bottom: 6px;
 }
 
+/* ESTRUCTURAS DE GRILLA Y FORMULARIOS */
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
 .input-group { margin-bottom: 16px; }
@@ -232,6 +256,77 @@ input, select {
 
 input:disabled { background: rgba(15, 23, 42, 0.3); color: #64748b; cursor: not-allowed; }
 input:focus, select:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15); }
+
+/* TÍTULOS DE SECCIÓN DE FORMULARIO */
+.form-section-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #818cf8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 18px 0 10px 0;
+    border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+    padding-bottom: 4px;
+}
+
+/* BOTONES DE BADGE Y ACCIONES EN ETIQUETAS */
+.label-with-badge, .header-label-group { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 6px; 
+}
+
+.btn-badge, .btn-rec {
+    background: #2e1065;
+    color: #c084fc;
+    border: 1px solid #7e22ce;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-badge:hover, .btn-rec:hover {
+    background: #3b0764;
+    border-color: #a855f7;
+}
+
+/* TARJETA CONTENEDORA DE DEDUCCIONES / PARÁMETROS FIJOS */
+.summary-card, .info-chips-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.summary-item, .info-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.summary-label, .chip-label {
+    font-size: 0.65rem;
+    color: #94a3b8;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.summary-value, .chip-value {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ffe600;
+    margin-top: 4px;
+}
 
 /* SELECTOR LOGÍSTICA (3 CORREOS) */
 .courier-selector {
@@ -276,8 +371,12 @@ hr { border: none; height: 1px; background: rgba(255, 255, 255, 0.08); margin: 1
 .res-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #94a3b8; margin-top: 8px; }
 .res-row span { font-weight: 600; color: #f1f5f9; }
 
-.header-label-group { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-.btn-rec { background: rgba(99, 102, 241, 0.2); border: 1px solid rgba(99, 102, 241, 0.4); color: #a5b4fc; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; cursor: pointer; }
+#gananciaOrganica {
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(0, 255, 102, 0.4);
+}
+
+.subtext-vol { font-size: 0.7rem; color: #818cf8; text-align: right; margin-top: 2px; }
 
 /* ESTILOS DE BADGES NEÓN PERSONALIZADOS */
 .badge-status { 
@@ -313,49 +412,7 @@ hr { border: none; height: 1px; background: rgba(255, 255, 255, 0.08); margin: 1
     box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
 }
 
-.subtext-vol { font-size: 0.7rem; color: #818cf8; text-align: right; margin-top: 2px; }
-
-/* Estilo para botón compuesto solo por imagen */
-.tab-btn-img {
-    padding: 0 !important;
-    overflow: hidden;
-    height: 42px; /* Mantiene la misma altura que el botón de Logística */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-}
-
-.btn-full-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ajusta la imagen completa cubriendo el botón */
-    border-radius: 10px;
-    opacity: 0.5; /* Estado inactivo */
-    transition: all 0.3s ease;
-}
-
-/* Estado activo para el botón con imagen */
-.tab-btn.active .btn-full-img {
-    opacity: 1;
-    box-shadow: 0 0 12px rgba(255, 230, 0, 0.6); /* Brillo neón amarillo al activarse */
-}
-
-.tab-btn.active.tab-btn-img {
-    background: transparent !important;
-}
-
-/* EFECTO NEÓN AMARILLO PARA MERCADO LIBRE */
-.tab-btn.active .btn-full-img,
-.tab-btn-img.active {
-    opacity: 1 !important;
-    filter: drop-shadow(0 0 10px #ffe600) drop-shadow(0 0 20px rgba(255, 230, 0, 0.8));
-    box-shadow: 0 0 15px rgba(255, 230, 0, 0.6);
-    border-radius: 10px;
-    transition: all 0.3s ease;
-}
-
-/* Definición de la animación de deslizamiento hacia abajo */
+/* ANIMACIONES */
 @keyframes slide-bottom {
   0% {
     transform: translateY(0);
@@ -365,59 +422,6 @@ hr { border: none; height: 1px; background: rgba(255, 255, 255, 0.08); margin: 1
   }
 }
 
-/* Clase que aplica la animación slide-bottom */
 .slide-bottom {
   animation: slide-bottom 0.4s linear both;
 }
-
-/* Resaltado especial para ganancia orgánica */
-#gananciaOrganica {
-    font-weight: 700;
-    text-shadow: 0 0 8px rgba(0, 255, 102, 0.4);
-}
-
-/* Títulos de sección interna para estructurar mejor el formulario */
-.form-section-title {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #6366f1;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin: 16px 0 10px 0;
-    border-bottom: 1px solid rgba(99, 102, 241, 0.2);
-    padding-bottom: 4px;
-}
-
-/* Fichas informativas (Info Chips) para reemplazar inputs deshabilitados */
-.info-chips-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    background: rgba(15, 23, 42, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 10px;
-    margin-bottom: 16px;
-}
-
-.info-chip {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.chip-label {
-    font-size: 0.65rem;
-    color: #94a3b8;
-    text-transform: uppercase;
-    font-weight: 600;
-}
-
-.chip-value {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #ffe600;
-    margin-top: 2px;
-}
-
