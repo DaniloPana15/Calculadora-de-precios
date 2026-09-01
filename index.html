@@ -108,75 +108,73 @@
     </div>
 
   <!-- PANEL 2: MERCADO LIBRE (REORGANIZADO UX) -->
-<div id="panel-meli" style="display: none;">
-
-    <!-- SECCIÓN 1: DATOS DEL PRODUCTO -->
+<div id="panel-meli">
+    <!-- 1. SECCIÓN DE ENTRADA DE DATOS -->
     <div class="form-section-title">1. Costo y Margen deseado</div>
     <div class="grid-2">
-        <div>
-            <label for="costoProducto">Costo Producto ($)</label>
+        <div class="input-group">
+            <label for="costoProducto">COSTO PRODUCTO ($)</label>
             <input type="text" id="costoProducto" inputmode="numeric" placeholder="Ej: 15.000" oninput="formatearEntrada(this)">
         </div>
-        <div>
-            <div class="header-label-group">
-                <label for="margenGanancia">% Margen Objetivo</label>
-                <button type="button" class="btn-rec" onclick="usarMargenRecomendado()">70%</button>
+        <div class="input-group">
+            <div class="label-with-badge">
+                <label for="margenGanancia">% MARGEN OBJETIVO</label>
+                <button type="button" class="btn-badge" onclick="usarMargenRecomendado()">70%</button>
             </div>
-            <input type="text" id="margenGanancia" inputmode="numeric" placeholder="Ej: 70" value="70" oninput="calcular()">
+            <input type="text" id="margenGanancia" inputmode="numeric" placeholder="70" value="70" oninput="calcular()">
         </div>
     </div>
 
-    <!-- SECCIÓN 2: CONFIGURACIÓN DE PUBLICACIÓN -->
+    <!-- 2. PARÁMETROS -->
     <div class="form-section-title">2. Parámetros de Mercado Libre</div>
     <div class="input-group">
-        <label for="categoriaMeli">Categoría del Producto</label>
+        <label for="categoriaMeli">CATEGORÍA DEL PRODUCTO</label>
         <select id="categoriaMeli" onchange="obtenerComisionesMeli()">
-            <!-- Se puebla dinámicamente -->
+            <option value="general">General / Estándar</option>
         </select>
     </div>
 
     <div class="grid-2">
-        <div>
-            <label for="tipoPublicacion">Tipo Publicación</label>
+        <div class="input-group">
+            <label for="tipoPublicacion">TIPO PUBLICACIÓN</label>
             <select id="tipoPublicacion" onchange="actualizarComisionMeliDisplay()">
-                <option value="gold_special">Clásica</option>
-                <option value="gold_pro">Premium</option>
+                <option value="clasica">Clásica</option>
+                <option value="premium">Premium</option>
             </select>
         </div>
-        <div>
-            <label for="reputacionMeli">Reputación Termómetro</label>
+        <div class="input-group">
+            <label for="reputacionMeli">REPUTACIÓN TERMÓMETRO</label>
             <select id="reputacionMeli" onchange="calcular()">
-                <option value="verde">Líder / Verde (50% desc. envío)</option>
-                <option value="amarillo">Amarilla (40% desc. envío)</option>
-                <option value="sin">Sin reputación (0% desc.)</option>
+                <option value="verde">Líder / Verde (50% desc.)</option>
+                <option value="amarillo">Amarillo (40% desc.)</option>
             </select>
         </div>
     </div>
 
     <div class="grid-2">
-        <div>
-            <label for="porcentajeAds">% Product Ads (ACOS)</label>
-            <input type="text" id="porcentajeAds" inputmode="numeric" placeholder="Ej: 4" value="4" oninput="calcular()">
+        <div class="input-group">
+            <label for="porcentajeAds">% PRODUCT ADS (ACOS)</label>
+            <input type="text" id="porcentajeAds" inputmode="numeric" value="4" oninput="calcular()">
         </div>
-        <div>
-            <label for="porcentajeImpuestos">% Impuestos / IIBB</label>
-            <input type="text" id="porcentajeImpuestos" inputmode="numeric" placeholder="Ej: 3" value="3" oninput="calcular()">
+        <div class="input-group">
+            <label for="porcentajeImpuestos">% IMPUESTOS / IIBB</label>
+            <input type="text" id="porcentajeImpuestos" inputmode="numeric" value="3" oninput="calcular()">
         </div>
     </div>
 
-    <!-- SECCIÓN 3: REGLAS AUTOMÁTICAS (LECTURA SOLAMENTE, NO INPUTS) -->
-    <div class="info-chips-container">
-        <div class="info-chip">
-            <span class="chip-label">Comisión Categoría:</span>
-            <span class="chip-value" id="porcentajeComisionMeli">14%</span>
+    <!-- 3. RESUMEN DE DEDUCCIONES (BADGES EN CONTENEDOR) -->
+    <div class="summary-card">
+        <div class="summary-item">
+            <span class="summary-label">Comisión Categoría</span>
+            <span class="summary-value" id="porcentajeComisionMeli">14%</span>
         </div>
-        <div class="info-chip">
-            <span class="chip-label">Envío Base Est.:</span>
-            <span class="chip-value" id="displayCostoEnvio">$6.500</span>
+        <div class="summary-item">
+            <span class="summary-label">Envío Base Est.</span>
+            <span class="summary-value" id="displayCostoEnvio">$6.500</span>
         </div>
-        <div class="info-chip">
-            <span class="chip-label">Costo Fijo / Unidad:</span>
-            <span class="chip-value">$1.500</span>
+        <div class="summary-item">
+            <span class="summary-label">Costo Fijo / Unidad</span>
+            <span class="summary-value">$1.500</span>
         </div>
     </div>
 </div>
