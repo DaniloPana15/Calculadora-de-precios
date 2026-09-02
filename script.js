@@ -1,7 +1,6 @@
 let correoSeleccionado = 'CA';
 let modoActual = 'logistica';
 
-// Matriz de categorías con comisiones fijas (Clásica/Premium) y costo base de envío promedio por categoría
 const CATEGORIAS_MELI = [
     { id: 'general', nombre: 'General / Estándar', clasica: 0.14, premium: 0.29, envioBase: 6500 },
     { id: 'belleza', nombre: 'Belleza y Cuidado Personal', clasica: 0.14, premium: 0.29, envioBase: 5800 },
@@ -49,10 +48,9 @@ function obtenerComisionesMeli() {
         comisionMeliClasica = categoriaEncontrada.clasica;
         comisionMeliPremium = categoriaEncontrada.premium;
 
-        // Auto-completar costo de envío automático
-        const inputEnvioMeli = document.getElementById('costoEnvioMeli');
-        if (inputEnvioMeli) {
-            inputEnvioMeli.value = categoriaEncontrada.envioBase.toLocaleString('es-AR');
+        const displayEnvio = document.getElementById('displayCostoEnvio');
+        if (displayEnvio) {
+            displayEnvio.innerText = '$' + categoriaEncontrada.envioBase.toLocaleString('es-AR');
         }
     }
 
@@ -63,10 +61,10 @@ function actualizarComisionMeliDisplay() {
     const tipoPub = document.getElementById('tipoPublicacion').value;
     const inputPct = document.getElementById('porcentajeComisionMeli');
     
-    let porcentajeAplicado = (tipoPub === 'gold_special') ? comisionMeliClasica : comisionMeliPremium;
+    let porcentajeAplicado = (tipoPub === 'clasica') ? comisionMeliClasica : comisionMeliPremium;
     
     if (inputPct) {
-        inputPct.value = (porcentajeAplicado * 100).toFixed(1) + "%";
+        inputPct.innerText = (porcentajeAplicado * 100).toFixed(1) + "%";
     }
 
     calcular();
@@ -251,13 +249,17 @@ function calcular() {
 
         let tipoPub = document.getElementById('tipoPublicacion').value;
         let rep = document.getElementById('reputacionMeli').value;
-        let baseEnvioMeli = obtenerNumero('costoEnvioMeli');
-        let costoFijoUnidad = obtenerNumero('costoFijoMeli');
+        
+        const selectCat = document.getElementById('categoriaMeli');
+        const catId = selectCat ? selectCat.value : 'general';
+        const categoriaEncontrada = CATEGORIAS_MELI.find(cat => cat.id === catId);
+        let baseEnvioMeli = categoriaEncontrada ? categoriaEncontrada.envioBase : 6500;
+        let costoFijoUnidad = 1500;
 
         let pctAds = obtenerNumero('porcentajeAds') / 100;
         let pctImpuestos = obtenerNumero('porcentajeImpuestos') / 100;
 
-        let pctMeli = (tipoPub === 'gold_special') ? comisionMeliClasica : comisionMeliPremium;
+        let pctMeli = (tipoPub === 'clasica') ? comisionMeliClasica : comisionMeliPremium;
 
         const txtPorcentaje = document.getElementById('porcentajeComisionMeli');
         if (txtPorcentaje) {
@@ -309,11 +311,9 @@ function calcular() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    calcularCostoFlete();
     cargarCategoriasMeli();
-});
+    calcularCostoFlete();
 
-document.addEventListener('DOMContentLoaded', () => {
     const btnProbar = document.querySelector('.btn-hero-probar');
     const calculadoraSeccion = document.getElementById('calculadora');
 
