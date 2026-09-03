@@ -171,8 +171,12 @@ function calcularCostoFlete() {
     calcular();
 }
 
-function usarMargenRecomendado() {
-    document.getElementById('margenGanancia').value = '70';
+function usarMargenRecomendado(modo) {
+    if (modo === 'logistica') {
+        document.getElementById('margenGananciaLog').value = '70';
+    } else {
+        document.getElementById('margenGananciaMeli').value = '70';
+    }
     calcular();
 }
 
@@ -194,19 +198,27 @@ function obtenerNumero(id) {
 }
 
 function calcular() {
-    let costoProd = obtenerNumero('costoProducto');
-    let margen = obtenerNumero('margenGanancia');
+    let idCosto = (modoActual === 'logistica') ? 'costoProductoLog' : 'costoProductoMeli';
+    let idMargen = (modoActual === 'logistica') ? 'margenGananciaLog' : 'margenGananciaMeli';
+
+    let costoProd = obtenerNumero(idCosto);
+    let margen = obtenerNumero(idMargen);
     let badge = document.getElementById('badgeEstado');
 
+    let rowFijoMeli = document.getElementById('row-fijo-meli');
+    let rowEnvioDirecto = document.getElementById('row-envio-directo');
     let rowAds = document.getElementById('row-ads');
     let rowImpuestos = document.getElementById('row-impuestos');
     let rowGananciaOrganica = document.getElementById('row-ganancia-organica');
+    let labelGananciaPrincipal = document.getElementById('label-ganancia-principal');
 
     if (costoProd <= 0) {
         document.getElementById('precioPublicado').innerText = "$0";
         document.getElementById('gananciaNeta').innerText = "$0";
         document.getElementById('gananciaOrganica').innerText = "$0";
         document.getElementById('comisionCobrada').innerText = "$0";
+        document.getElementById('montoFijoMeli').innerText = "$0";
+        document.getElementById('montoEnvioDirecto').innerText = "$0";
         document.getElementById('montoAds').innerText = "$0";
         document.getElementById('montoImpuestos').innerText = "$0";
         document.getElementById('porcentajeReal').innerText = "0%";
@@ -218,15 +230,19 @@ function calcular() {
     let precioFinal = 0;
     let comisionMonto = 0;
     let costoEnvioFinal = 0;
+    let costoFijoUnidad = 0;
     let montoAds = 0;
     let montoImpuestos = 0;
     let gananciaLimpiaAds = 0;
     let gananciaLimpiaOrganica = 0;
 
     if (modoActual === 'logistica') {
+        rowFijoMeli.style.display = 'none';
+        rowEnvioDirecto.style.display = 'flex';
         rowAds.style.display = 'none';
         rowImpuestos.style.display = 'none';
         rowGananciaOrganica.style.display = 'none';
+        labelGananciaPrincipal.innerText = 'Ganancia Neta';
 
         costoEnvioFinal = obtenerNumero('costoEnvio');
         let tipoEnvio = document.getElementById('tipoEnvio').value;
@@ -242,10 +258,14 @@ function calcular() {
         
         gananciaLimpiaAds = precioFinal - comisionMonto - costoEnvioFinal - costoProd;
 
+        document.getElementById('montoEnvioDirecto').innerText = "$" + costoEnvioFinal.toLocaleString('es-AR');
+
     } else {
+        rowEnvioDirecto.style.display = 'none';
         rowAds.style.display = 'flex';
         rowImpuestos.style.display = 'flex';
         rowGananciaOrganica.style.display = 'flex';
+        labelGananciaPrincipal.innerText = 'Ganancia Neta (Venta con Ads)';
 
         let tipoPub = document.getElementById('tipoPublicacion').value;
         let rep = document.getElementById('reputacionMeli').value;
@@ -254,11 +274,9 @@ function calcular() {
         const catId = selectCat ? selectCat.value : 'general';
         const categoriaEncontrada = CATEGORIAS_MELI.find(cat => cat.id === catId);
         let baseEnvioMeli = categoriaEncontrada ? categoriaEncontrada.envioBase : 6500;
-        let costoFijoUnidad = 1500;
 
         let pctAds = obtenerNumero('porcentajeAds') / 100;
         let pctImpuestos = obtenerNumero('porcentajeImpuestos') / 100;
-
         let pctMeli = (tipoPub === 'clasica') ? comisionMeliClasica : comisionMeliPremium;
 
         const txtPorcentaje = document.getElementById('porcentajeComisionMeli');
@@ -276,8 +294,27 @@ function calcular() {
             return;
         }
 
+        // Se estiman $1.500 de cargo fijo solo para publicaciones de menor valor
+        costoFijoUnidad = 1500;
+
         let subtotalFijo = costoProd + gananciaObjetivo + costoEnvioFinal + costoFijoUnidad;
         precioFinal = Math.ceil(subtotalFijo / (1 - tasaTotalCargas));
+
+        // Si la venta supera $33.000, Mercado Libre exime el cargo fijo de $1.500
+        if (precioFinal >= 33000) {
+            costoFijoUnidad = 0;
+            subtotalFijo = costoProd + gananciaObjetivo + costoEnvioFinal + costoFijoUnidad;
+            precioFinal = Math.ceil(subtotalFijo / (1 - tasaTotalCargas));
+        }
+
+        if (costoFijoUnidad > 0) {
+            rowFijoMeli.style.display = 'flex';
+            document.getElementById('montoFijoMeli').innerText = "$" + costoFijoUnidad.toLocaleString('es-AR');
+            document.getElementById('displayCostoFijo').innerText = "$" + costoFijoUnidad.toLocaleString('es-AR');
+        } else {
+            rowFijoMeli.style.display = 'none';
+            document.getElementById('displayCostoFijo').innerText = "Exento (>$33k)";
+        }
 
         comisionMonto = Math.round(precioFinal * pctMeli);
         montoAds = Math.round(precioFinal * pctAds);
