@@ -9,19 +9,45 @@
     <link rel="apple-touch-icon" href="favicon.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<header class="hero-banner">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-        <h1 class="hero-title">Calculadora <span>de precios</span></h1>
-        <p class="hero-subtitle">DESCUBRE TU GANANCIA REAL Y DEJA DE PERDER DINERO EN CADA VENTA</p>
-        <a href="#calculadora" class="btn-hero-probar">Probar ahora</a>
+<header class="hero-section">
+  <!-- Video para PC (Horizontal) -->
+  <video class="hero-video desktop-video" autoplay loop muted playsinline>
+    <source src="hero-bg-desktop.mp4" type="video/mp4">
+  </video>
+
+  <!-- Video para Celular (Vertical) -->
+  <video class="hero-video mobile-video" autoplay loop muted playsinline>
+    <source src="hero-bg-mobile.mp4" type="video/mp4">
+  </video>
+
+  <!-- Capa con el degradado oscuro para legibilidad -->
+  <div class="hero-overlay"></div>
+
+  <!-- Contenido principal: Badge, Título, Subtítulo y Botón -->
+  <div class="hero-content">
+    <div class="badge">
+      <span class="badge-tag">NUEVO</span>
+      <span class="badge-text">• Calculadora 2026</span>
     </div>
+
+    <h1 class="hero-title">
+      <span class="title-line1">TU GANANCIA</span>
+      <span class="title-line2">real</span>
+      <span class="title-line3">sin misterios</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      Simula tu inversión en segundos • 100% transparente y sin costos ocultos
+    </p>
+
+    <a href="#calculadora" class="btn-hero-probar">Calcular ahora</a>
+  </div>
 </header>
 
 <main class="box" id="calculadora">
