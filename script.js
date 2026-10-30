@@ -25,7 +25,6 @@ let comisionMeliPremium = 0.29;
 function cargarCategoriasMeli() {
     const selectCat = document.getElementById('categoriaMeli');
     if (!selectCat) return;
-
     selectCat.innerHTML = '';
     CATEGORIAS_MELI.forEach(cat => {
         const option = document.createElement('option');
@@ -33,40 +32,33 @@ function cargarCategoriasMeli() {
         option.innerText = cat.nombre;
         selectCat.appendChild(option);
     });
-
     obtenerComisionesMeli();
 }
 
 function obtenerComisionesMeli() {
     const selectCat = document.getElementById('categoriaMeli');
     if (!selectCat) return;
-
     const catId = selectCat.value || 'general';
     const categoriaEncontrada = CATEGORIAS_MELI.find(cat => cat.id === catId);
 
     if (categoriaEncontrada) {
         comisionMeliClasica = categoriaEncontrada.clasica;
         comisionMeliPremium = categoriaEncontrada.premium;
-
         const displayEnvio = document.getElementById('displayCostoEnvio');
         if (displayEnvio) {
             displayEnvio.innerText = '$' + categoriaEncontrada.envioBase.toLocaleString('es-AR');
         }
     }
-
     actualizarComisionMeliDisplay();
 }
 
 function actualizarComisionMeliDisplay() {
     const tipoPub = document.getElementById('tipoPublicacion').value;
     const inputPct = document.getElementById('porcentajeComisionMeli');
-    
     let porcentajeAplicado = (tipoPub === 'clasica') ? comisionMeliClasica : comisionMeliPremium;
-    
     if (inputPct) {
         inputPct.innerText = (porcentajeAplicado * 100).toFixed(1) + "%";
     }
-
     calcular();
 }
 
@@ -89,10 +81,8 @@ function cambiarModo(modo) {
     modoActual = modo;
     document.getElementById('tab-logistica').classList.toggle('active', modo === 'logistica');
     document.getElementById('tab-meli').classList.toggle('active', modo === 'meli');
-    
     document.getElementById('panel-logistica').style.display = (modo === 'logistica') ? 'block' : 'none';
     document.getElementById('panel-meli').style.display = (modo === 'meli') ? 'block' : 'none';
-    
     document.getElementById('titulo-seccion').innerText = (modo === 'logistica') ? 'Armado de Precios Directo' : 'Armado de Precios Mercado Libre';
     calcular();
 }
@@ -114,21 +104,18 @@ function seleccionarCorreo(correo) {
         opcionCR.disabled = false;
         opcionCR.innerText = "Contra Reembolso (Sucursal Oficial)";
     }
-
     actualizarReglasCR();
 }
 
 function actualizarReglasCR() {
     let tipoEnvio = document.getElementById('tipoEnvio').value;
     let selectModalidad = document.getElementById('modalidadEnvio');
-
     if (tipoEnvio === 'cr' && correoSeleccionado === 'CA') {
         selectModalidad.value = 'sucursal';
         selectModalidad.disabled = true;
     } else {
         selectModalidad.disabled = false;
     }
-
     calcularCostoFlete();
 }
 
@@ -162,7 +149,6 @@ function calcularCostoFlete() {
         calcular();
         return;
     }
-
     inputEnvio.disabled = true;
     let tarifaCalculada = TARIFAS[correoSeleccionado][zona][modalidad][peso];
     if (tarifaCalculada) {
@@ -214,6 +200,7 @@ function calcular() {
 
     if (costoProd <= 0) {
         document.getElementById('precioPublicado').innerText = "$0";
+        document.getElementById('contenedorPrecioLista').style.display = 'none';
         document.getElementById('gananciaNeta').innerText = "$0";
         document.getElementById('gananciaOrganica').innerText = "$0";
         document.getElementById('comisionCobrada').innerText = "$0";
@@ -257,7 +244,6 @@ function calcular() {
         comisionMonto = Math.round((precioFinal * tasaComision) * 100) / 100;
         
         gananciaLimpiaAds = precioFinal - comisionMonto - costoEnvioFinal - costoProd;
-
         document.getElementById('montoEnvioDirecto').innerText = "$" + costoEnvioFinal.toLocaleString('es-AR');
 
     } else {
@@ -294,13 +280,10 @@ function calcular() {
             return;
         }
 
-        // Se estiman $1.500 de cargo fijo solo para publicaciones de menor valor
         costoFijoUnidad = 1500;
-
         let subtotalFijo = costoProd + gananciaObjetivo + costoEnvioFinal + costoFijoUnidad;
         precioFinal = Math.ceil(subtotalFijo / (1 - tasaTotalCargas));
 
-        // Si la venta supera $33.000, Mercado Libre exime el cargo fijo de $1.500
         if (precioFinal >= 33000) {
             costoFijoUnidad = 0;
             subtotalFijo = costoProd + gananciaObjetivo + costoEnvioFinal + costoFijoUnidad;
@@ -323,6 +306,24 @@ function calcular() {
         gananciaLimpiaAds = precioFinal - comisionMonto - costoFijoUnidad - costoEnvioFinal - montoImpuestos - montoAds - costoProd;
         gananciaLimpiaOrganica = gananciaLimpiaAds + montoAds;
     }
+
+    // --- NUEVO: CÁLCULO DE PRECIO DE LISTA (TACHADO) ---
+    let pctDescuento = obtenerNumero('porcentajeDescuento');
+    let contenedorPrecioLista = document.getElementById('contenedorPrecioLista');
+    let precioListaEl = document.getElementById('precioLista');
+    let badgeDescuentoEl = document.getElementById('badgeDescuento');
+
+    if (pctDescuento > 0 && pctDescuento < 100) {
+        // Al dividir el precioFinal por (1 - %descuento), logramos que al restarle el descuento
+        // al precio de lista, el cliente pague exactamente tu precioFinal objetivo.
+        let precioLista = Math.ceil(precioFinal / (1 - (pctDescuento / 100)));
+        precioListaEl.innerText = "$" + precioLista.toLocaleString('es-AR');
+        badgeDescuentoEl.innerText = pctDescuento + "% OFF";
+        contenedorPrecioLista.style.display = 'flex';
+    } else {
+        contenedorPrecioLista.style.display = 'none';
+    }
+    // -----------------------------------------------------
 
     let rentabilidadEfectiva = ((gananciaLimpiaAds / costoProd) * 100).toFixed(1);
 
@@ -358,11 +359,8 @@ document.addEventListener('DOMContentLoaded', () => {
         btnProbar.addEventListener('click', (e) => {
             e.preventDefault();
             btnProbar.classList.add('slide-bottom');
-
             setTimeout(() => {
-                calculadoraSeccion.scrollIntoView({
-                    behavior: 'smooth'
-                });
+                calculadoraSeccion.scrollIntoView({ behavior: 'smooth' });
             }, 400);
         });
     }
