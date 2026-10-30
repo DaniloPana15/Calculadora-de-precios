@@ -10,48 +10,36 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <header class="hero-section">
-  <!-- Video para PC (Horizontal) -->
   <video class="hero-video desktop-video" autoplay loop muted playsinline>
     <source src="hero-bg-desktop.mp4" type="video/mp4">
   </video>
-
-  <!-- Video para Celular (Vertical) -->
   <video class="hero-video mobile-video" autoplay loop muted playsinline>
     <source src="hero-bg-mobile.mp4" type="video/mp4">
   </video>
-
-  <!-- Capa con el degradado oscuro para legibilidad -->
   <div class="hero-overlay"></div>
-
-  <!-- Contenido principal: Badge, Título, Subtítulo y Botón -->
   <div class="hero-content">
     <div class="badge">
       <span class="badge-tag">NUEVO</span>
       <span class="badge-text">• Calculadora 2026</span>
     </div>
-
     <h1 class="hero-title">
       <span class="title-line1">TU GANANCIA</span>
       <span class="title-line2">real</span>
       <span class="title-line3">sin misterios</span>
     </h1>
-
     <p class="hero-subtitle">
       Simula tu inversión en segundos • 100% transparente y sin costos ocultos
     </p>
-
     <a href="#calculadora" class="btn-hero-probar">Calcular ahora</a>
   </div>
 </header>
 
 <main class="box" id="calculadora">
-    
     <div class="tabs-container">
         <button class="tab-btn active" id="tab-logistica" onclick="cambiarModo('logistica')">
             🚚 Logística Directa
@@ -65,7 +53,6 @@
     
     <!-- PANEL 1: LOGÍSTICA DIRECTA -->
     <div id="panel-logistica">
-        <!-- SECCIÓN 1: COSTO Y MARGEN -->
         <div class="form-section-title">1. Costo y Margen deseado</div>
         <div class="grid-2">
             <div class="input-group">
@@ -81,7 +68,6 @@
             </div>
         </div>
 
-        <!-- SECCIÓN 2: PARÁMETROS LOGÍSTICOS -->
         <div class="form-section-title">2. Parámetros Logísticos</div>
         <label>Empresa de Logística</label>
         <div class="courier-selector">
@@ -215,9 +201,23 @@
         </div>
     </div>
 
+    <!-- ESTRATEGIA DE DESCUENTO (GLOBAL) -->
+    <div class="form-section-title" style="text-align: center; border-bottom: none; margin-top: 24px;">3. Estrategia de Promoción (Opcional)</div>
+    <div class="input-group" style="max-width: 220px; margin: 0 auto 20px auto;">
+        <label for="porcentajeDescuento" style="text-align: center;">% DESCUENTO EN TIENDA</label>
+        <input type="text" id="porcentajeDescuento" inputmode="numeric" placeholder="Ej: 30" oninput="calcular()" style="text-align: center;">
+    </div>
+
     <!-- RESULTADO DESTACADO -->
     <div class="card-result">
         <div class="card-label">Precio Final de Venta Sugerido</div>
+        
+        <!-- Nuevo contenedor para precio tachado -->
+        <div id="contenedorPrecioLista" class="contenedor-precio-lista" style="display: none;">
+            <span id="precioLista" class="precio-tachado"></span>
+            <span class="badge-descuento" id="badgeDescuento"></span>
+        </div>
+        
         <span id="precioPublicado" class="highlight">$0</span>
     </div>
 
